@@ -10,6 +10,10 @@ namespace Cognition.Web.Models
 {
     public class CognitionUser : User
     {
+        public CognitionUser()
+        {
+        }
+
         public CognitionUser(string username, string name)
         {
             UserName = username;
