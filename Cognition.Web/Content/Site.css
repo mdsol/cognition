@@ -33,3 +33,9 @@ input[type="checkbox"].input-validation-error {
   background-color: white;
   border-style:none;
 }
+
+.avatar {
+border-radius: 50%;
+-moz-border-radius: 50%;
+-webkit-border-radius: 50%;
+}

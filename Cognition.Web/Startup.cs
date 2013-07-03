@@ -6,6 +6,7 @@ namespace Cognition.Web
     {
         public void Configuration(IAppBuilder app) 
         {
+            ConfigureMigrations(app);
             ConfigureUnity(app);
             ConfigureAuth(app);
         }
