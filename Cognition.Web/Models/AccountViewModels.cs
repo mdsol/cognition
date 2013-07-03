@@ -10,6 +10,9 @@ namespace Cognition.Web.Models
 
         [Required]
         public string LoginProvider { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 
     public class ManageUserViewModel

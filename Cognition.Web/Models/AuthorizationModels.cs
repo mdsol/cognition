@@ -9,6 +9,12 @@ namespace Cognition.Web.Models
 {
     public class CognitionUser : User
     {
+        public CognitionUser(string username, string name)
+        {
+            UserName = username;
+            Name = name;
+        }
+
         public string Name { get; set; }
         public string ProfilePictureUri { get; set; }
     }

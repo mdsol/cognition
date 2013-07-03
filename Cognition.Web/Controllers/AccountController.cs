@@ -35,6 +35,7 @@ namespace Cognition.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.CanRegister = RegistrationIsAllowed();
             return View();
         }
 
@@ -242,7 +243,7 @@ namespace Cognition.Web.Controllers
 
                 var email = id.FindFirst(ClaimTypes.Email).Value;
 
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = email, LoginProvider = loginProvider });
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = email, LoginProvider = loginProvider, Name = id.Name });
             }
         }
 
@@ -263,7 +264,7 @@ namespace Cognition.Web.Controllers
                 // Get the information about the user from the external login provider
                 try
                 {
-                    if (await AuthenticationManager.CreateAndSignInExternalUser(HttpContext, model.LoginProvider, new User(model.UserName)))
+                    if (await AuthenticationManager.CreateAndSignInExternalUser(HttpContext, model.LoginProvider, new CognitionUser(model.UserName, model.Name)))
                     {
                         return RedirectToLocal(returnUrl);
                     }
