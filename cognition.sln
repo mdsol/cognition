@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Support", "Cognit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Shared", "Cognition.Shared\Cognition.Shared.csproj", "{AEF87F82-DA8E-4C7B-A318-4FA0D87728A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Documents.Library", "Cognition.Documents.Library\Cognition.Documents.Library.csproj", "{80890687-78CA-4569-916F-507E7FDADE1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AEF87F82-DA8E-4C7B-A318-4FA0D87728A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEF87F82-DA8E-4C7B-A318-4FA0D87728A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEF87F82-DA8E-4C7B-A318-4FA0D87728A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80890687-78CA-4569-916F-507E7FDADE1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80890687-78CA-4569-916F-507E7FDADE1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80890687-78CA-4569-916F-507E7FDADE1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80890687-78CA-4569-916F-507E7FDADE1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,5 +14,10 @@ namespace Cognition.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Create(string type)
+        {
+            return View();
+        }
 	}
 }
