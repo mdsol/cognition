@@ -1,6 +1,12 @@
-﻿@{
-    ViewBag.Title = "Create document";
+﻿@model Cognition.Shared.Documents.Document
+@{
+    ViewBag.Title = "Create new " + Model.GetFullName();
 }
 
 <h1>@ViewBag.Title</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+}
 

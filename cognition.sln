@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Shared", "Cogniti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Documents.Library", "Cognition.Documents.Library\Cognition.Documents.Library.csproj", "{80890687-78CA-4569-916F-507E7FDADE1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Services", "Cognition.Services\Cognition.Services.csproj", "{B214108E-9850-4410-8368-637270E7CA68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{80890687-78CA-4569-916F-507E7FDADE1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80890687-78CA-4569-916F-507E7FDADE1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80890687-78CA-4569-916F-507E7FDADE1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B214108E-9850-4410-8368-637270E7CA68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B214108E-9850-4410-8368-637270E7CA68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B214108E-9850-4410-8368-637270E7CA68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B214108E-9850-4410-8368-637270E7CA68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

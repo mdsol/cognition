@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cognition.Services.Documents;
 using Cognition.Shared.Configuration;
+using Cognition.Shared.Documents;
 using Cognition.Support.Configuration;
 using Cognition.Web.Unity;
 using Microsoft.Practices.Unity;
@@ -24,6 +26,8 @@ namespace Cognition.Web
             DependencyResolver.SetResolver(new UnityDependencyResolver(Container));
 
             Container.RegisterType<IAppSettingProvider, AppSettingProvider>();
+
+            Container.RegisterType<IDocumentTypeResolver, StaticDocumentTypeResolver>();
         }
     }
 }

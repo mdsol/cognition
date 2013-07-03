@@ -290,6 +290,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cognition.Services\Cognition.Services.csproj">
+      <Project>{b214108e-9850-4410-8368-637270e7ca68}</Project>
+      <Name>Cognition.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cognition.Shared\Cognition.Shared.csproj">
       <Project>{aef87f82-da8e-4c7b-a318-4fa0d87728a5}</Project>
       <Name>Cognition.Shared</Name>
