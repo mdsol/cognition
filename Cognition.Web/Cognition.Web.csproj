@@ -159,10 +159,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\Startup.Unity.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\RouteExtensions.cs" />
     <Compile Include="Migrations\201307030707163_initial.cs" />
     <Compile Include="Migrations\201307030707163_initial.Designer.cs">
       <DependentUpon>201307030707163_initial.cs</DependentUpon>
