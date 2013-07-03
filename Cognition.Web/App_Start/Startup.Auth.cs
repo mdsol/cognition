@@ -1,4 +1,5 @@
-﻿using Owin;
+﻿using System.Configuration;
+using Owin;
 
 namespace Cognition.Web
 {
@@ -24,7 +25,10 @@ namespace Cognition.Web
             //   appId: "",
             //   appSecret: "");
 
-            app.UseGoogleAuthentication();
+            if (bool.Parse(ConfigurationManager.AppSettings["GoogleAuthEnabled"]))
+            {
+                app.UseGoogleAuthentication();
+            }
         }
     }
 }
