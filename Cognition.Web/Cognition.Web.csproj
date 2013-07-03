@@ -241,6 +241,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Compile Include="App_Start\Startup.Migrations.cs" />
+    <Content Include="LICENSE.md" />
+    <Content Include="README.md" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
