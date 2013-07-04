@@ -25,8 +25,25 @@ namespace Cognition.Web.Controllers
 
         public ActionResult Create(string type)
         {
+            return View(GetNewDocument(type));
+        }
+
+        private dynamic GetNewDocument(string type)
+        {
             var documentType = documentTypeResolver.GetDocumentType(type);
-            var newDocument = Activator.CreateInstance(documentType);
+            return Activator.CreateInstance(documentType);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Create(FormCollection formCollection)
+        {
+            var newDocument = GetNewDocument(formCollection["Type"]);
+
+            if (ModelState.IsValid)
+            {
+                UpdateModel(newDocument);
+            }
 
             return View(newDocument);
         }

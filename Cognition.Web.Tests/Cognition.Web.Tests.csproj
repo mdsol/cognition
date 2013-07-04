@@ -35,6 +35,9 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MvcContrib.TestHelper">
+      <HintPath>..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.100.0\lib\MvcContrib.TestHelper.dll</HintPath>
+    </Reference>
     <Reference Include="Ploeh.AutoFixture">
       <HintPath>..\packages\AutoFixture.3.5.1\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>

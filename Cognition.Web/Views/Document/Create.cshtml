@@ -7,6 +7,12 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+    
+    @Html.HiddenFor(m => m.Type)
+    
     @Html.EditorForModel()
+    
+    <button type="submit" class="btn btn-primary">Create</button>
 }
 
