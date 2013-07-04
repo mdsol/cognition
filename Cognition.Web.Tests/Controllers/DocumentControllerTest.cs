@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cognition.Shared.Documents;
 using Cognition.Web.Controllers;
@@ -17,7 +18,7 @@ namespace Cognition.Web.Tests.Controllers
         private DocumentController sut;
         private IFixture fixture;
         private IDocumentTypeResolver documentTypeResolver;
-        private IDocumentService documentService;
+        private MockDocumentService documentService;
 
         const string typeName = "test";
 
@@ -53,6 +54,19 @@ namespace Cognition.Web.Tests.Controllers
 
             Assert.AreEqual(testTitle, document.Title);
             Assert.AreEqual(propOne, document.PropertyOne);
+        }
+
+        [TestMethod]
+        public void Index_GetsDocumentFromServiceAndSetsItAsModel()
+        {
+            var id = fixture.Create<string>();
+            var document = new TestDocument {Id = id};
+            documentService.Documents.Add(document);
+
+            var result = (ViewResult) sut.Index(id, typeName).Result;
+
+            Assert.AreEqual(document, result.Model);
+
         }
     }
 }

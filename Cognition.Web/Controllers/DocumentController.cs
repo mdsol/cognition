@@ -19,11 +19,10 @@ namespace Cognition.Web.Controllers
             this.documentService = documentService;
         }
 
-        //
-        // GET: /Document/
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string id, string type)
         {
-            return View();
+            var document = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
+            return View(document);
         }
 
         public ActionResult Create(string type)
