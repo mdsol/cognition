@@ -8,6 +8,7 @@ using Cognition.Shared.Documents;
 
 namespace Cognition.Documents.Library
 {
+
     public class KnownIssue : Document
     {
         [ScaffoldColumn(false)]
@@ -39,5 +40,17 @@ namespace Cognition.Documents.Library
         [Display(Name = "Date acknowledged")]
         [DataType(DataType.Date)]
         public DateTime? DateAcknowledged { get; set; }
+
+        public enum Severity
+        {
+            Low = 0,
+            Medium = 5,
+            High = 10
+        }
+
+        [Display(Name = "Issue Severity")]
+        public Severity IssueSeverity { get; set; }
+        
     }
+
 }

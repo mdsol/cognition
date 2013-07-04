@@ -4,3 +4,4 @@ packages/*
 *.suo
 Cognition.Web/App_Data/aspnet-Cognition.Web-20130703033902_log.ldf
 Cognition.Web/App_Data/
+cognition.sln.DotSettings.user
