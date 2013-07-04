@@ -14,5 +14,10 @@ namespace Cognition.Support.Configuration
         {
             return bool.Parse(ConfigurationManager.AppSettings[key]);
         }
+
+        public string GetString(string key)
+        {
+            return ConfigurationManager.AppSettings[key];
+        }
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace Cognition.Shared.Documents
+﻿using System.Threading.Tasks;
+
+namespace Cognition.Shared.Documents
 {
     public interface IDocumentService
     {
-         
+        Task CreateNewDocument(dynamic document);
     }
 }

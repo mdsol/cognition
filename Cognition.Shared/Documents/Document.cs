@@ -30,7 +30,7 @@ namespace Cognition.Shared.Documents
         [ScaffoldColumn(false)]
         public string Id { get; set; }
         [ScaffoldColumn(false)]
-        public string Ref { get; set; }
+        public string Rev { get; set; }
 
         [ScaffoldColumn(false)]
         public string CreatedByUserId { get; set; }

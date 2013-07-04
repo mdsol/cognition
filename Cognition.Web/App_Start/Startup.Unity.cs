@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cognition.Documents.CouchDb;
 using Cognition.Services.Documents;
 using Cognition.Shared.Configuration;
 using Cognition.Shared.Documents;
@@ -28,6 +29,7 @@ namespace Cognition.Web
             Container.RegisterType<IAppSettingProvider, AppSettingProvider>();
 
             Container.RegisterType<IDocumentTypeResolver, StaticDocumentTypeResolver>();
+            Container.RegisterType<IDocumentService, CouchDbDocumentService>();
         }
     }
 }

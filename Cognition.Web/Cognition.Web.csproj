@@ -291,6 +291,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cognition.Documents.CouchDb\Cognition.Documents.CouchDb.csproj">
+      <Project>{466d3b24-5ad1-454e-bf9e-3c3ff51f7b81}</Project>
+      <Name>Cognition.Documents.CouchDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cognition.Services\Cognition.Services.csproj">
       <Project>{b214108e-9850-4410-8368-637270e7ca68}</Project>
       <Name>Cognition.Services</Name>

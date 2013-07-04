@@ -17,6 +17,7 @@ namespace Cognition.Web.Tests.Controllers
         private DocumentController sut;
         private IFixture fixture;
         private IDocumentTypeResolver documentTypeResolver;
+        private IDocumentService documentService;
 
         const string typeName = "test";
 
@@ -24,7 +25,8 @@ namespace Cognition.Web.Tests.Controllers
         public void Init()
         {
             documentTypeResolver = MockRepository.GenerateMock<IDocumentTypeResolver>();
-            sut = new DocumentController(documentTypeResolver);
+            documentService = new MockDocumentService();
+            sut = new DocumentController(documentTypeResolver, documentService);
             documentTypeResolver.Stub(d => d.GetDocumentType(typeName)).Return(typeof(TestDocument));
             fixture = new Fixture();
         }
@@ -44,9 +46,9 @@ namespace Cognition.Web.Tests.Controllers
             const string testTitle = "test title";
             const string propOne = "property one";
             new TestControllerBuilder().InitializeController(sut);
-            var formValues = new FormCollection() { { "Title", testTitle }, {"Type", typeName}, {"PropertyOne", propOne} };
+            var formValues = new FormCollection() { { "Title", testTitle }, { "Type", typeName }, { "PropertyOne", propOne } };
             sut.ValueProvider = formValues.ToValueProvider();
-            var result = (ViewResult)sut.Create(formValues);
+            var result = (ViewResult)sut.Create(formValues).Result;
             var document = (TestDocument)result.Model;
 
             Assert.AreEqual(testTitle, document.Title);

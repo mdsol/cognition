@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Cognition.Shared.Documents;
@@ -10,10 +11,12 @@ namespace Cognition.Web.Controllers
     public class DocumentController : Controller
     {
         private readonly IDocumentTypeResolver documentTypeResolver;
+        private readonly IDocumentService documentService;
 
-        public DocumentController(IDocumentTypeResolver documentTypeResolver)
+        public DocumentController(IDocumentTypeResolver documentTypeResolver, IDocumentService documentService)
         {
             this.documentTypeResolver = documentTypeResolver;
+            this.documentService = documentService;
         }
 
         //
@@ -36,16 +39,17 @@ namespace Cognition.Web.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Create(FormCollection formCollection)
+        public async Task<ActionResult> Create(FormCollection formCollection)
         {
             var newDocument = GetNewDocument(formCollection["Type"]);
 
             if (ModelState.IsValid)
             {
                 UpdateModel(newDocument);
+                await documentService.CreateNewDocument(newDocument);
             }
 
             return View(newDocument);
         }
-	}
+    }
 }
