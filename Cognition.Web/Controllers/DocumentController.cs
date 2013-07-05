@@ -45,7 +45,13 @@ namespace Cognition.Web.Controllers
             if (ModelState.IsValid)
             {
                 UpdateModel(newDocument);
-                await documentService.CreateNewDocument(newDocument);
+                var result = await documentService.CreateNewDocument(newDocument);
+
+                if (result.Success)
+                {
+                    return RedirectToAction("Index", new {id = result.NewId, type = newDocument.Type});
+                }
+                
             }
 
             return View(newDocument);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cognition.Shared.Configuration;
 using Cognition.Shared.Documents;
+using Cognition.Shared.DocumentService;
 using MyCouch;
 using Newtonsoft.Json;
 
@@ -19,11 +20,21 @@ namespace Cognition.Documents.CouchDb
             this.appSettingProvider = appSettingProvider;
         }
 
-        public async Task CreateNewDocument(dynamic document)
+        public async Task<DocumentCreateResult> CreateNewDocument(dynamic document)
         {
+            var asDocument = (Document) document;
+            
             using (var db = GetDb())
             {
-                await db.Entities.PostAsync(document);
+                var result = await db.Entities.PostAsync(asDocument);
+                var createResult = new DocumentCreateResult();
+                if (result.IsSuccess)
+                {
+                    createResult.Success = true;
+                    createResult.NewId = result.Id;
+                }
+
+                return createResult;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cognition.Shared.Documents;
@@ -42,18 +43,53 @@ namespace Cognition.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void Create_Post_SetsValuesOnNewDocument()
+        public async Task Create_Post_SetsValuesOnNewDocument()
         {
             const string testTitle = "test title";
             const string propOne = "property one";
             new TestControllerBuilder().InitializeController(sut);
             var formValues = new FormCollection() { { "Title", testTitle }, { "Type", typeName }, { "PropertyOne", propOne } };
             sut.ValueProvider = formValues.ToValueProvider();
-            var result = (ViewResult)sut.Create(formValues).Result;
-            var document = (TestDocument)result.Model;
+
+            await sut.Create(formValues);
+            dynamic document = documentService.Documents.Single();
 
             Assert.AreEqual(testTitle, document.Title);
             Assert.AreEqual(propOne, document.PropertyOne);
+        }
+
+        [TestMethod]
+        public async Task Create_Post_AddsDocumentToDocumentService()
+        {
+            const string testTitle = "test title";
+            const string propOne = "property one";
+            new TestControllerBuilder().InitializeController(sut);
+            var formValues = new FormCollection() { { "Title", testTitle }, { "Type", typeName }, { "PropertyOne", propOne } };
+            sut.ValueProvider = formValues.ToValueProvider();
+
+            await sut.Create(formValues);
+
+            var document = documentService.Documents.Single();
+            Assert.IsInstanceOfType(document, typeof(TestDocument));
+
+        }
+
+        [TestMethod]
+        public async Task Create_Post_RedirectsToViewOfDocumentOnPost()
+        {
+            const string testTitle = "test title";
+            const string propOne = "property one";
+            new TestControllerBuilder().InitializeController(sut);
+            var formValues = new FormCollection() { { "Title", testTitle }, { "Type", typeName }, { "PropertyOne", propOne } };
+            sut.ValueProvider = formValues.ToValueProvider();
+
+            var result = (RedirectToRouteResult) await sut.Create(formValues);
+
+            var document = documentService.Documents.Single();
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+            Assert.AreEqual(document.Id, result.RouteValues["id"]);
+            Assert.AreEqual(document.Type, result.RouteValues["type"]);
+
         }
 
         [TestMethod]
