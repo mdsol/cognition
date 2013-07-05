@@ -49,24 +49,29 @@ namespace Cognition.Documents.CouchDb
             {
                 var previousVersion = await db.Documents.GetAsync(id);
 
+                // add the previous version as an attachment
+                var versionAttachment = new DocumentVersionAttachment
+                {
+                    Content = previousVersion.Content,
+                    VersionId = previousVersion.Rev,
+                    DateTime = DateTime.UtcNow
+                };
+
+                var attachment = new DocumentAttachment
+                {
+                    ContentType = HttpContentTypes.Json,
+                    Data = Convert.ToBase64String(
+                        Encoding.UTF8.GetBytes(await JsonConvert.SerializeObjectAsync(versionAttachment)))
+                };
+
+                if (asDocument.Attachments == null) asDocument.Attachments = new Dictionary<string, DocumentAttachment>();
+                asDocument.Attachments.Add("version-" + previousVersion.Rev, attachment);
+
                 var result = await db.Entities.PutAsync(asDocument);
                 var updateResult = new DocumentUpdateResult();
                 if (result.IsSuccess)
                 {
                     updateResult.Success = true;
-
-                    // add previous version as an attachment
-                    var versionAttachment = new DocumentVersionAttachment
-                    {
-                        Content = previousVersion.Content,
-                        VersionId = result.Rev,
-                        DateTime = DateTime.UtcNow
-                    };
-
-                    var attachmentCommand = new PutAttachmentCommand(id, result.Rev, "version-" + result.Rev, HttpContentTypes.Json,
-                        Encoding.UTF8.GetBytes (await JsonConvert.SerializeObjectAsync(versionAttachment)));
-
-                    await db.Attachments.PutAsync(attachmentCommand);
                 }
 
                 return updateResult;

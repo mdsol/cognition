@@ -25,8 +25,8 @@ namespace Cognition.Shared.Documents
         [JsonProperty(PropertyName = "stub")]
         public bool Stub { get; set; }
 
-        [JsonProperty(PropertyName = "content")]
-        public string Content
+        [JsonProperty(PropertyName = "data")]
+        public string Data
         {
             get;
             set;
