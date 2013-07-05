@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
@@ -36,6 +37,14 @@ namespace Cognition.Shared.Documents
         [JsonProperty(PropertyName = "_rev")]
         public string Rev { get; set; }
 
+        [ScaffoldColumn(false)]
+        [JsonProperty(PropertyName = "_attachments")]
+        public Dictionary<string, DocumentAttachment> Attachments
+        {
+            get;
+            set;
+        }
+        
         [ScaffoldColumn(false)]
         public string CreatedByUserId { get; set; }
 

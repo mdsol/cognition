@@ -7,6 +7,8 @@ using Cognition.Shared.Configuration;
 using Cognition.Shared.Documents;
 using Cognition.Shared.DocumentService;
 using MyCouch;
+using MyCouch.Commands;
+using MyCouch.Net;
 using Newtonsoft.Json;
 
 namespace Cognition.Documents.CouchDb
@@ -42,15 +44,31 @@ namespace Cognition.Documents.CouchDb
         {
             var asDocument = (Document) document;
             asDocument.Id = id;
-
+            
             using (var db = GetDb())
             {
+                var previousVersion = await db.Documents.GetAsync(id);
+
                 var result = await db.Entities.PutAsync(asDocument);
                 var updateResult = new DocumentUpdateResult();
                 if (result.IsSuccess)
                 {
                     updateResult.Success = true;
+
+                    // add previous version as an attachment
+                    var versionAttachment = new DocumentVersionAttachment
+                    {
+                        Content = previousVersion.Content,
+                        VersionId = result.Rev,
+                        DateTime = DateTime.UtcNow
+                    };
+
+                    var attachmentCommand = new PutAttachmentCommand(id, result.Rev, "version-" + result.Rev, HttpContentTypes.Json,
+                        Encoding.UTF8.GetBytes (await JsonConvert.SerializeObjectAsync(versionAttachment)));
+
+                    await db.Attachments.PutAsync(attachmentCommand);
                 }
+
                 return updateResult;
 
             }

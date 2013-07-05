@@ -48,6 +48,7 @@
     <Compile Include="DocumentService\DocumentGetResult.cs" />
     <Compile Include="DocumentService\DocumentUpdateResult.cs" />
     <Compile Include="Documents\Document.cs" />
+    <Compile Include="Documents\DocumentAttachment.cs" />
     <Compile Include="Documents\IDocumentService.cs" />
     <Compile Include="Documents\IDocumentTypeResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
