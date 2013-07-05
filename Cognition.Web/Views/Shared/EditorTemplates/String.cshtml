@@ -8,7 +8,7 @@
     var items = new List<SelectListItem>();
     for (var i = 0; i < values.Length; i++)
     {
-        items.Add(new SelectListItem() { Text = names[i], Value = values.GetValue(i).ToString() });
+        items.Add(new SelectListItem() { Text = names[i], Value = values.GetValue(i).ToString(), Selected = (Model.ToString() == values.GetValue(i).ToString()) });
     }
     
     @Html.DropDownList("", items)
