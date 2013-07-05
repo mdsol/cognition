@@ -6,4 +6,6 @@
 <h1>@ViewBag.Title</h1>
 <h3>@Model.Subtitle</h3>
 
+@Html.ActionLink("Edit","Edit", new {id = Model.Id, type = Model.Type}, new {@class = "btn btn-primary"})
+
 @Html.DisplayForModel()

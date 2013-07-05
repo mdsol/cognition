@@ -8,6 +8,6 @@ namespace Cognition.Shared.Documents
     {
         Task<DocumentCreateResult> CreateNewDocument(dynamic document);
 
-        Task<Document> GetDocumentAsType(string id, Type type);
+        Task<DocumentGetResult> GetDocumentAsType(string id, Type type);
     }
 }

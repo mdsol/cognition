@@ -104,5 +104,17 @@ namespace Cognition.Web.Tests.Controllers
             Assert.AreEqual(document, result.Model);
 
         }
+
+        [TestMethod]
+        public async Task Edit_Get_SetsModelToRetrievedDocument()
+        {
+            var document = fixture.Create<TestDocument>();
+            documentService.Documents.Add(document);
+
+            var result = (ViewResult) await sut.Edit(document.Id, document.Type);
+
+            Assert.AreEqual(document, result.Model);
+
+        }
     }
 }

@@ -1,0 +1,18 @@
+﻿@model Cognition.Shared.Documents.Document
+@{
+    ViewBag.Title = "Edit " + Model.Title;
+}
+
+<h1>@ViewBag.Title</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.HiddenFor(m => m.Type)
+    
+    @Html.EditorForModel()
+    
+    <button type="submit" class="btn btn-primary">Edit</button>
+}
+

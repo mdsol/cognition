@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Cognition.Shared.Documents
 {
@@ -28,8 +29,11 @@ namespace Cognition.Shared.Documents
         }
 
         [ScaffoldColumn(false)]
+        [JsonProperty(PropertyName = "_id")]
         public string Id { get; set; }
+
         [ScaffoldColumn(false)]
+        [JsonProperty(PropertyName = "_rev")]
         public string Rev { get; set; }
 
         [ScaffoldColumn(false)]

@@ -38,12 +38,20 @@ namespace Cognition.Documents.CouchDb
             }
         }
 
-        public async Task<Document> GetDocumentAsType(string id, Type type)
+        public async Task<DocumentGetResult> GetDocumentAsType(string id, Type type)
         {
             using (var db = GetDb())
             {
                 var response = await db.Documents.GetAsync(id);
-                return await JsonConvert.DeserializeObjectAsync(response.Content, type, new JsonSerializerSettings() ) as Document;
+                var getResult = new DocumentGetResult();
+                if (response.IsSuccess)
+                {
+                    getResult.Success = true;
+                    getResult.Document = await JsonConvert.DeserializeObjectAsync(response.Content, type, new JsonSerializerSettings()) as Document;
+                }
+
+                return getResult;
+
             }
         }
 

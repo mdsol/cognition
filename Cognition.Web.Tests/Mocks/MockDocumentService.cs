@@ -19,10 +19,11 @@ namespace Cognition.Web.Tests.Mocks
             return new DocumentCreateResult() {NewId = document.Id, Success = true};
         }
 
-        public async Task<Document> GetDocumentAsType(string id, Type type)
+        public async Task<DocumentGetResult> GetDocumentAsType(string id, Type type)
         {
-            return Documents.Single(d => d.Id == id);
+            return new DocumentGetResult() {Document = Documents.Single(d => d.Id == id), Success = true};
         }
+
 
     }
 }

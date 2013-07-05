@@ -21,8 +21,8 @@ namespace Cognition.Web.Controllers
 
         public async Task<ActionResult> Index(string id, string type)
         {
-            var document = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
-            return View(document);
+            var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
+            return View(result.Document);
         }
 
         public ActionResult Create(string type)
@@ -55,6 +55,13 @@ namespace Cognition.Web.Controllers
             }
 
             return View(newDocument);
+        }
+
+        public async Task<ActionResult> Edit(string id, string type)
+        {
+            var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
+
+            return View(result.Document);
         }
     }
 }
