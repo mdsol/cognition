@@ -16,12 +16,20 @@ namespace Cognition.Web.Tests.Mocks
         {
             document.Id = Guid.NewGuid().ToString();
             Documents.Add(document);
-            return new DocumentCreateResult() {NewId = document.Id, Success = true};
+            return new DocumentCreateResult() { NewId = document.Id, Success = true };
+        }
+
+        public async Task<DocumentUpdateResult> UpdateDocument(string id, dynamic document)
+        {
+            var existing = Documents.Single(d => d.Id == id);
+            Documents.Remove(existing);
+            Documents.Add((Document)document);
+            return new DocumentUpdateResult() { Success = true };
         }
 
         public async Task<DocumentGetResult> GetDocumentAsType(string id, Type type)
         {
-            return new DocumentGetResult() {Document = Documents.Single(d => d.Id == id), Success = true};
+            return new DocumentGetResult() { Document = Documents.Single(d => d.Id == id), Success = true };
         }
 
 

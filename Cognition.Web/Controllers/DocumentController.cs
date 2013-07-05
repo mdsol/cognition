@@ -49,9 +49,9 @@ namespace Cognition.Web.Controllers
 
                 if (result.Success)
                 {
-                    return RedirectToAction("Index", new {id = result.NewId, type = newDocument.Type});
+                    return RedirectToAction("Index", new { id = result.NewId, type = newDocument.Type });
                 }
-                
+
             }
 
             return View(newDocument);
@@ -62,6 +62,29 @@ namespace Cognition.Web.Controllers
             var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
 
             return View(result.Document);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> Edit(FormCollection formCollection)
+        {
+
+            var existingDocumentGetResult = await documentService.GetDocumentAsType(formCollection["Id"],
+                documentTypeResolver.GetDocumentType(formCollection["Type"]));
+
+            dynamic existingDocument = existingDocumentGetResult.Document;
+
+            if (ModelState.IsValid)
+            {
+                UpdateModel(existingDocument);
+                var result = await documentService.UpdateDocument(formCollection["Id"], existingDocument);
+                if (result.Success)
+                {
+                    return RedirectToAction("Index", new { id = formCollection["Id"], type = formCollection["Type"] });
+                }
+            }
+
+            return View(existingDocument);
         }
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="Configuration\IAppSettingProvider.cs" />
     <Compile Include="DocumentService\DocumentCreateResult.cs" />
     <Compile Include="DocumentService\DocumentGetResult.cs" />
+    <Compile Include="DocumentService\DocumentUpdateResult.cs" />
     <Compile Include="Documents\Document.cs" />
     <Compile Include="Documents\IDocumentService.cs" />
     <Compile Include="Documents\IDocumentTypeResolver.cs" />

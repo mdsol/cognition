@@ -38,6 +38,25 @@ namespace Cognition.Documents.CouchDb
             }
         }
 
+        public async Task<DocumentUpdateResult> UpdateDocument(string id, dynamic document)
+        {
+            var asDocument = (Document) document;
+            asDocument.Id = id;
+
+            using (var db = GetDb())
+            {
+                var result = await db.Entities.PutAsync(asDocument);
+                var updateResult = new DocumentUpdateResult();
+                if (result.IsSuccess)
+                {
+                    updateResult.Success = true;
+                }
+                return updateResult;
+
+            }
+        }
+
+
         public async Task<DocumentGetResult> GetDocumentAsType(string id, Type type)
         {
             using (var db = GetDb())

@@ -83,7 +83,7 @@ namespace Cognition.Web.Tests.Controllers
             var formValues = new FormCollection() { { "Title", testTitle }, { "Type", typeName }, { "PropertyOne", propOne } };
             sut.ValueProvider = formValues.ToValueProvider();
 
-            var result = (RedirectToRouteResult) await sut.Create(formValues);
+            var result = (RedirectToRouteResult)await sut.Create(formValues);
 
             var document = documentService.Documents.Single();
             Assert.AreEqual("Index", result.RouteValues["action"]);
@@ -96,10 +96,10 @@ namespace Cognition.Web.Tests.Controllers
         public void Index_GetsDocumentFromServiceAndSetsItAsModel()
         {
             var id = fixture.Create<string>();
-            var document = new TestDocument {Id = id};
+            var document = new TestDocument { Id = id };
             documentService.Documents.Add(document);
 
-            var result = (ViewResult) sut.Index(id, typeName).Result;
+            var result = (ViewResult)sut.Index(id, typeName).Result;
 
             Assert.AreEqual(document, result.Model);
 
@@ -111,9 +111,32 @@ namespace Cognition.Web.Tests.Controllers
             var document = fixture.Create<TestDocument>();
             documentService.Documents.Add(document);
 
-            var result = (ViewResult) await sut.Edit(document.Id, document.Type);
+            var result = (ViewResult)await sut.Edit(document.Id, document.Type);
 
             Assert.AreEqual(document, result.Model);
+
+        }
+
+        [TestMethod]
+        public async Task Edit_Post_UpdatesDocumentWithFormCollectionValuesThenRedirectsToView()
+        {
+            var existingDocument = fixture.Create<TestDocument>();
+            documentService.Documents.Add(existingDocument);
+            var newTitle = fixture.Create<string>();
+            var newPropertyOne = fixture.Create<string>();
+            new TestControllerBuilder().InitializeController(sut);
+            var formValues = new FormCollection() { { "Title", newTitle }, {"Id", existingDocument.Id}, { "Type", typeName }, { "PropertyOne", newPropertyOne } };
+            sut.ValueProvider = formValues.ToValueProvider();
+
+            var redirectResult = (RedirectToRouteResult)await sut.Edit(formValues);
+
+            var newDocument = (TestDocument)documentService.Documents.Single();
+            Assert.AreEqual(newTitle, newDocument.Title);
+            Assert.AreEqual(newPropertyOne, newDocument.PropertyOne);
+
+            Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
+            Assert.AreEqual(newDocument.Id, redirectResult.RouteValues["id"]);
+            Assert.AreEqual(newDocument.Type, redirectResult.RouteValues["type"]);
 
         }
     }
