@@ -56,6 +56,7 @@
     <Compile Include="Documents\IDocumentTypeResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\IUserAuthenticationService.cs" />
+    <Compile Include="Users\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

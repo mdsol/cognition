@@ -181,7 +181,7 @@ namespace Cognition.Web.Tests.Controllers
 
             var newDocument = (TestDocument) documentService.Documents.Single();
 
-            Assert.AreEqual(userEmail, newDocument.LastUpdatedByUserId);
+            Assert.AreEqual(newDocument.LastUpdatedByUserId);
 
 
 

@@ -8,4 +8,16 @@
 
 @Html.ActionLink("Edit","Edit", new {id = Model.Id, type = Model.Type}, new {@class = "btn btn-primary"})
 
+<div id="user-info-container">
+    
+    <span class="user-info-label">Created by:</span>
+    @Html.Action("UserInfo","User", new {id = Model.CreatedByUserId})
+    @if (Model.LastUpdatedByUserId != null)
+    {
+        <span class="user-info-label">Last Updated by:</span>
+        @Html.Action("UserInfo","User", new {id = Model.LastUpdatedByUserId})
+    }
+
+</div>
+
 @Html.DisplayForModel()

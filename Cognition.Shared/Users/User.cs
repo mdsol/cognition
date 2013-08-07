@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cognition.Shared.Users
 {
-    public interface IUserAuthenticationService
+    public class User
     {
-        string GetCurrentUserEmail();
-        User GetUserByEmail(string email);
+        public string Email { get; set; }
+        public string FullName { get; set; }
     }
 }

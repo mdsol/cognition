@@ -1,42 +1,49 @@
 ﻿body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+  padding-top: 60px;
+  padding-bottom: 40px;
 }
-
 /* styles for validation helpers */
 .field-validation-error {
-    color: #b94a48;
+  color: #b94a48;
 }
-
 .field-validation-valid {
-    display: none;
- }
-
+  display: none;
+}
 input.input-validation-error {
-    border: 1px solid #b94a48;
+  border: 1px solid #b94a48;
 }
-
 input[type="checkbox"].input-validation-error {
-    border: 0 none;
+  border: 0 none;
 }
-
 .validation-summary-errors {
-    color: #b94a48;
+  color: #b94a48;
 }
-
 .validation-summary-valid {
-    display: none;
+  display: none;
 }
-
 /* styles for removing the background from form */
 .no-color {
   background-color: white;
-  border-style:none;
+  border-style: none;
 }
-
 .avatar {
-border-radius: 50%;
--moz-border-radius: 50%;
--webkit-border-radius: 50%;
-    margin-top: 4px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  margin-top: 4px;
+}
+/* user info styles */
+#user-info-container .user-info-label,
+#user-info-container .user-info-name,
+#user-info-container .avatar {
+  display: inline;
+}
+#user-info-container .avatar {
+  margin-top: 0px;
+}
+#user-info-container .user-info-label {
+  color: #666666;
+}
+#user-info-container .user-info-name {
+  margin-right: 10px;
 }

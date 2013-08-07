@@ -103,14 +103,15 @@ namespace Cognition.Web.Controllers
 
             if (result.Success)
             {
-                var viewModel = new DocumentListViewModel();
-
-                viewModel.Documents = result.Documents.ToList();
-                viewModel.PageIndex = result.PageIndex;
-                viewModel.PageSize = result.PageSize;
-                viewModel.TotalDocuments = result.TotalDocuments;
-                viewModel.TypeName = type;
-                viewModel.TypeFullName = documentTypeResolver.GetDocumentTypeFullName(type);
+                var viewModel = new DocumentListViewModel
+                {
+                    Documents = result.Documents.ToList(),
+                    PageIndex = result.PageIndex,
+                    PageSize = result.PageSize,
+                    TotalDocuments = result.TotalDocuments,
+                    TypeName = type,
+                    TypeFullName = documentTypeResolver.GetDocumentTypeFullName(type)
+                };
 
                 return View(viewModel);
             }
