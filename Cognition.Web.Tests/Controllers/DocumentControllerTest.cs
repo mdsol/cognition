@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cognition.Shared.Documents;
+using Cognition.Shared.Users;
 using Cognition.Web.Controllers;
 using Cognition.Web.Tests.Mocks;
 using Cognition.Web.ViewModels;
@@ -20,26 +21,28 @@ namespace Cognition.Web.Tests.Controllers
         private DocumentController sut;
         private IFixture fixture;
         private IDocumentTypeResolver documentTypeResolver;
+        private IUserAuthenticationService userAuthenticationService;
         private MockDocumentService documentService;
 
-        const string typeName = "test";
+        private const string typeName = "test";
 
         [TestInitialize]
         public void Init()
         {
             documentTypeResolver = MockRepository.GenerateMock<IDocumentTypeResolver>();
+            userAuthenticationService = MockRepository.GenerateMock<IUserAuthenticationService>();
             documentService = new MockDocumentService();
-            sut = new DocumentController(documentTypeResolver, documentService);
-            documentTypeResolver.Stub(d => d.GetDocumentType(typeName)).Return(typeof(TestDocument));
+            sut = new DocumentController(documentTypeResolver, documentService, userAuthenticationService);
+            documentTypeResolver.Stub(d => d.GetDocumentType(typeName)).Return(typeof (TestDocument));
             fixture = new Fixture();
         }
 
         [TestMethod]
         public void Create_NewsUpNewInstanceOfDocumentTypeAndSetsViewModelType()
         {
-            var result = (ViewResult)sut.Create(typeName);
+            var result = (ViewResult) sut.Create(typeName);
 
-            Assert.IsInstanceOfType(result.Model, typeof(TestDocument));
+            Assert.IsInstanceOfType(result.Model, typeof (TestDocument));
 
         }
 
@@ -49,7 +52,7 @@ namespace Cognition.Web.Tests.Controllers
             const string testTitle = "test title";
             const string propOne = "property one";
             new TestControllerBuilder().InitializeController(sut);
-            var formValues = new FormCollection() { { "Title", testTitle }, { "Type", typeName }, { "PropertyOne", propOne } };
+            var formValues = new FormCollection() {{"Title", testTitle}, {"Type", typeName}, {"PropertyOne", propOne}};
             sut.ValueProvider = formValues.ToValueProvider();
 
             await sut.Create(formValues);
@@ -60,19 +63,39 @@ namespace Cognition.Web.Tests.Controllers
         }
 
         [TestMethod]
+        public async Task Create_Post_SetsCurrentUserEmailAddressToCreatedByField()
+        {
+            var userEmail = fixture.Create<string>();
+            userAuthenticationService.Stub(s => s.GetCurrentUserEmail()).Return(userEmail);
+            var formValues = SetupCreateAction();
+
+            await sut.Create(formValues);
+
+            var document = documentService.Documents.Single();
+            Assert.AreEqual(userEmail, document.CreatedByUserId);
+
+        }
+
+        [TestMethod]
         public async Task Create_Post_AddsDocumentToDocumentService()
         {
-            const string testTitle = "test title";
-            const string propOne = "property one";
-            new TestControllerBuilder().InitializeController(sut);
-            var formValues = new FormCollection() { { "Title", testTitle }, { "Type", typeName }, { "PropertyOne", propOne } };
-            sut.ValueProvider = formValues.ToValueProvider();
+            var formValues = SetupCreateAction();
 
             await sut.Create(formValues);
 
             var document = documentService.Documents.Single();
             Assert.IsInstanceOfType(document, typeof(TestDocument));
 
+        }
+
+        private FormCollection SetupCreateAction()
+        {
+            const string testTitle = "test title";
+            const string propOne = "property one";
+            new TestControllerBuilder().InitializeController(sut);
+            var formValues = new FormCollection() {{"Title", testTitle}, {"Type", typeName}, {"PropertyOne", propOne}};
+            sut.ValueProvider = formValues.ToValueProvider();
+            return formValues;
         }
 
         [TestMethod]
@@ -138,6 +161,30 @@ namespace Cognition.Web.Tests.Controllers
             Assert.AreEqual("Index", redirectResult.RouteValues["action"]);
             Assert.AreEqual(newDocument.Id, redirectResult.RouteValues["id"]);
             Assert.AreEqual(newDocument.Type, redirectResult.RouteValues["type"]);
+
+        }
+
+        [TestMethod]
+        public async Task Edit_Post_SetsUpdatedByUserIdOnDocument()
+        {
+            var existingDocument = fixture.Create<TestDocument>();
+            documentService.Documents.Add(existingDocument);
+            var newTitle = fixture.Create<string>();
+            var newPropertyOne = fixture.Create<string>();
+            new TestControllerBuilder().InitializeController(sut);
+            var formValues = new FormCollection() { { "Title", newTitle }, { "Id", existingDocument.Id }, { "Type", typeName }, { "PropertyOne", newPropertyOne } };
+            sut.ValueProvider = formValues.ToValueProvider();
+            var userEmail = fixture.Create<string>();
+            userAuthenticationService.Stub(u => u.GetCurrentUserEmail()).Return(userEmail);
+
+            await sut.Edit(formValues);
+
+            var newDocument = (TestDocument) documentService.Documents.Single();
+
+            Assert.AreEqual(userEmail, newDocument.LastUpdatedByUserId);
+
+
+
 
         }
 

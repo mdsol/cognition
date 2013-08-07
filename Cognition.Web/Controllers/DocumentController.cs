@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Cognition.Shared.Documents;
+using Cognition.Shared.Users;
 using Cognition.Web.ViewModels;
 
 namespace Cognition.Web.Controllers
@@ -13,11 +14,13 @@ namespace Cognition.Web.Controllers
     {
         private readonly IDocumentTypeResolver documentTypeResolver;
         private readonly IDocumentService documentService;
+        private readonly IUserAuthenticationService userAuthenticationService;
 
-        public DocumentController(IDocumentTypeResolver documentTypeResolver, IDocumentService documentService)
+        public DocumentController(IDocumentTypeResolver documentTypeResolver, IDocumentService documentService, IUserAuthenticationService userAuthenticationService)
         {
             this.documentTypeResolver = documentTypeResolver;
             this.documentService = documentService;
+            this.userAuthenticationService = userAuthenticationService;
         }
 
         public async Task<ActionResult> Index(string id, string type)
@@ -46,6 +49,7 @@ namespace Cognition.Web.Controllers
             if (ModelState.IsValid)
             {
                 UpdateModel(newDocument);
+                ((Document) newDocument).CreatedByUserId = userAuthenticationService.GetCurrentUserEmail();
                 var result = await documentService.CreateNewDocument(newDocument);
 
                 if (result.Success)
@@ -78,6 +82,7 @@ namespace Cognition.Web.Controllers
             if (ModelState.IsValid)
             {
                 UpdateModel(existingDocument);
+                ((Document) existingDocument).LastUpdatedByUserId = userAuthenticationService.GetCurrentUserEmail();
                 var result = await documentService.UpdateDocument(formCollection["Id"], existingDocument);
                 if (result.Success)
                 {

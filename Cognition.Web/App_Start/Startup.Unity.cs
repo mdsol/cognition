@@ -6,8 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using Cognition.Documents.CouchDb;
 using Cognition.Services.Documents;
+using Cognition.Services.Web;
 using Cognition.Shared.Configuration;
 using Cognition.Shared.Documents;
+using Cognition.Shared.Users;
 using Cognition.Support.Configuration;
 using Cognition.Web.Unity;
 using Microsoft.Practices.Unity;
@@ -29,6 +31,7 @@ namespace Cognition.Web
             Container.RegisterType<IAppSettingProvider, AppSettingProvider>();
 
             Container.RegisterType<IDocumentTypeResolver, StaticDocumentTypeResolver>();
+            Container.RegisterType<IUserAuthenticationService, AspNetUserAuthenticationService>();
             Container.RegisterType<IDocumentService, CouchDbDocumentService>();
         }
     }
