@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Cognition.Shared.Documents;
 using Cognition.Web.Controllers;
 using Cognition.Web.Tests.Mocks;
+using Cognition.Web.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Rhino.Mocks;
@@ -139,5 +140,63 @@ namespace Cognition.Web.Tests.Controllers
             Assert.AreEqual(newDocument.Type, redirectResult.RouteValues["type"]);
 
         }
+
+        [TestMethod]
+        public async Task List_SetsViewTypeToCorrectViewModel()
+        {
+            var result = (ViewResult) await sut.List(typeName);
+            Assert.IsInstanceOfType(result.Model, typeof(DocumentListViewModel));
+        }
+
+        [TestMethod]
+        public async Task List_SetsDocumentsFromServiceResult()
+        {
+            var model = await GetDefaultListActionModelResult();
+
+            CollectionAssert.AreEquivalent(documentService.Documents.Select(d => d.Id).ToList(), 
+                model.Documents.Select(d => d.Id).ToList());
+        }
+
+        private async Task<DocumentListViewModel> GetDefaultListActionModelResult()
+        {
+            var documents = fixture.CreateMany<TestDocument>();
+            documentService.Documents.AddRange(documents);
+            foreach (var doc in documentService.Documents) doc.Type = typeName;
+
+            var result = (ViewResult) await sut.List(typeName, documentService.Documents.Count, 0);
+            var model = (DocumentListViewModel) result.Model;
+            return model;
+        }
+
+        [TestMethod]
+        public async Task List_SetsPropertiesFromServiceResult()
+        {
+            var model = await GetDefaultListActionModelResult();
+
+            Assert.AreEqual(documentService.Documents.Count, model.TotalDocuments);
+            Assert.AreEqual(documentService.Documents.Count, model.PageSize);
+            Assert.AreEqual(0, model.PageIndex);
+        }
+
+        [TestMethod]
+        public async Task List_SetsTypeNameInViewModel()
+        {
+            var model = await GetDefaultListActionModelResult();
+
+            Assert.AreEqual(typeName, model.TypeName);
+        }
+
+        [TestMethod]
+        public async Task List_SetsFullTypeNameInViewModel()
+        {
+            var typeFullName = fixture.Create<string>();
+            documentTypeResolver.Stub(t => t.GetDocumentTypeFullName(typeName)).Return(typeFullName);
+
+            var model = await GetDefaultListActionModelResult();
+
+            Assert.AreEqual(typeFullName, model.TypeFullName);
+        }
+
+
     }
 }

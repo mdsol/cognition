@@ -97,6 +97,83 @@ namespace Cognition.Documents.CouchDb
             }
         }
 
+        private async Task UpdateViewsIfRequired(string typeName, Client db)
+        {
+
+            var id = "_design/" + CreateDesignDocumentNameForTypeName(typeName);
+            // check to see if the design document already exists
+            var existsResponse = await db.Documents.ExistsAsync(id);
+
+            if (existsResponse.IsSuccess && "_design/" + existsResponse.Id == id) return;
+
+            // create the view to query on
+            var viewDocument = CreateViewJsonForTypeName(typeName);
+
+            var viewPostResult = await db.Documents.PostAsync(viewDocument);
+            if (!viewPostResult.IsSuccess)
+            {
+                throw new Exception(String.Format("Error creating view: ({0} {1}) {2}", viewPostResult.StatusCode, viewPostResult.Reason, viewPostResult.Error));
+            }
+        }
+
+        public async Task<DocumentListResult> GetDocumentList(Type type, string typeName, int pageSize, int pageIndex)
+        {
+            
+            using (var db = GetDb())
+            {
+
+                await UpdateViewsIfRequired(typeName, db);
+
+                var query =
+                    new ViewQuery(CreateDesignDocumentNameForTypeName(typeName), "types").Configure(
+                        c => c.Skip(pageIndex*pageSize).Limit(pageSize));
+
+                var response = await db.Views.RunQueryAsync(query);
+
+                var result = new DocumentListResult();
+                result.PageSize = pageSize;
+                result.PageIndex = pageIndex;
+                if (response.IsSuccess)
+                {
+                    result.Success = true;
+                    result.TotalDocuments = response.TotalRows;
+                    result.Documents =
+                        response.Rows.Select(
+                            r => new DocumentReference() { Id = r.Id, Title = JsonConvert.DeserializeObject<string>(r.Value), Type = typeName });
+                }
+                else
+                {
+                    result.ErrorReason = response.StatusCode + " " + response.Reason + " - " + response.Error;
+                }
+
+                return result;
+
+            }
+
+        }
+
+        private string CreateViewJsonForTypeName(string typeName)
+        {
+            const string viewString = @"{{
+                                        ""_id"": ""_design/{0}"",
+                                        ""language"": ""javascript"",
+                                        ""views"": {{
+                                            ""types"": {{
+                                                ""map"": ""function(doc) {{  if(doc.type !== '{1}') return;  emit(doc._id, doc.title);}}"" 
+                                            }}
+                                        }}
+                                    }}";
+
+            return string.Format(viewString, CreateDesignDocumentNameForTypeName(typeName), typeName);
+
+        }
+
+        private string CreateDesignDocumentNameForTypeName(string typeName)
+        {
+            var name = "document-view-{0}";
+            return String.Format(name, typeName);
+        }
+
         private Client GetDb()
         {
             return new MyCouch.Client(appSettingProvider.GetString("CouchDb"));

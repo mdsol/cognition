@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Cognition.Shared.Documents;
+using Cognition.Web.ViewModels;
 
 namespace Cognition.Web.Controllers
 {
@@ -85,6 +86,35 @@ namespace Cognition.Web.Controllers
             }
 
             return View(existingDocument);
+        }
+
+        public async Task<ActionResult> List(string type, int pageSize = 20, int pageIndex = 0)
+        {
+            
+            var result =
+                await
+                    documentService.GetDocumentList(documentTypeResolver.GetDocumentType(type), type, pageSize,
+                        pageIndex);
+
+            if (result.Success)
+            {
+                var viewModel = new DocumentListViewModel();
+
+                viewModel.Documents = result.Documents.ToList();
+                viewModel.PageIndex = result.PageIndex;
+                viewModel.PageSize = result.PageSize;
+                viewModel.TotalDocuments = result.TotalDocuments;
+                viewModel.TypeName = type;
+                viewModel.TypeFullName = documentTypeResolver.GetDocumentTypeFullName(type);
+
+                return View(viewModel);
+            }
+            else
+            {
+                throw new Exception(result.ErrorReason);
+            }
+
+            
         }
     }
 }

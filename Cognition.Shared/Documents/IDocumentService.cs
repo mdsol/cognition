@@ -11,5 +11,7 @@ namespace Cognition.Shared.Documents
         Task<DocumentUpdateResult> UpdateDocument(string id, dynamic document);
 
         Task<DocumentGetResult> GetDocumentAsType(string id, Type type);
+
+        Task<DocumentListResult> GetDocumentList(Type type, string typeName, int pageSize, int pageIndex);
     }
 }

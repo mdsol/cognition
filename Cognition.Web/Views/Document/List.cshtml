@@ -1,0 +1,16 @@
+﻿@model Cognition.Web.ViewModels.DocumentListViewModel
+
+@{
+    ViewBag.Title = Model.TypeFullName + " List";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<ul>
+@foreach (var document in Model.Documents)
+{
+    <li>
+        @Html.ActionLink(document.Title, "Index", new {id = document.Id, type = document.Type})
+    </li>
+}
+</ul>

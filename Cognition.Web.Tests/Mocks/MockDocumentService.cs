@@ -32,6 +32,16 @@ namespace Cognition.Web.Tests.Mocks
             return new DocumentGetResult() { Document = Documents.Single(d => d.Id == id), Success = true };
         }
 
-
+        public async Task<DocumentListResult> GetDocumentList(Type type, string typeName, int pageSize, int pageIndex)
+        {
+            return new DocumentListResult()
+            {
+                Documents = Documents.Where(d => d.Type == typeName).Skip(pageSize*pageIndex).Take(pageSize).Select(r => new DocumentReference() { Id = r.Id, Title = r.Title, Type = r.Type}),
+                TotalDocuments = Documents.Count,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Success = true
+            };
+        }
     }
 }

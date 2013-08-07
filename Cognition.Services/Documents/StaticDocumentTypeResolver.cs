@@ -19,5 +19,12 @@ namespace Cognition.Services.Documents
         {
             return typeMaps[type];
         }
+
+        public string GetDocumentTypeFullName(string typeName)
+        {
+            var type = GetDocumentType(typeName);
+            var document = (Document)Activator.CreateInstance(type);
+            return document.GetFullName();
+        }
     }
 }
