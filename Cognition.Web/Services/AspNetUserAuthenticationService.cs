@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Cognition.Shared.Users;
 using Cognition.Web.Models;
@@ -14,11 +16,11 @@ namespace Cognition.Web.Services
             return HttpContext.Current.User.Identity.GetUserName();
         }
 
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
             var context = new CognitionIdentityDbContext();
-            var user = context.Users.Single(u => u.UserName == email);
-            return new User() { Email = email, FullName = user.Name };
+            var user =  await context.Users.SingleOrDefaultAsync(u => u.UserName == email);
+            return user == null ? null : new User() { Email = email, FullName = user.Name };
         }
     }
 }
