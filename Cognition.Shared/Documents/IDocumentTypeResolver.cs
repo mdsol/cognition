@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Cognition.Shared.Documents
 {
@@ -6,5 +8,6 @@ namespace Cognition.Shared.Documents
     {
         Type GetDocumentType(string type);
         string GetDocumentTypeFullName(string typeName);
+        IEnumerable<DocumentTypeReference> AllAvailableTypes { get; }
     }
 }

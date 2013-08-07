@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Cognition.Shared.Documents.DocumentTypeReference>
+
+@{
     ViewBag.Title = "Cognition";  
 }
 
@@ -6,3 +8,16 @@
     <h1>Cognition</h1>
     <p class="lead">Work in progress.</p>
 </div>
+
+<h2>
+    Available document types
+</h2>
+
+<ul>
+    @foreach (var docType in Model)
+    {
+        <li>
+            @Html.ActionLink(docType.FullTypeName, "List", "Document", new {type = docType.TypeName}, new {})
+        </li>
+    }
+</ul>

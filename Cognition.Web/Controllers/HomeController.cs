@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cognition.Shared.Documents;
 
 namespace Cognition.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IDocumentTypeResolver documentTypeResolver;
+
+        public HomeController(IDocumentTypeResolver documentTypeResolver)
+        {
+            this.documentTypeResolver = documentTypeResolver;
+        }
+
         public ActionResult Index()
         {
-            return View();
+            return View(documentTypeResolver.AllAvailableTypes);
         }
 
         public ActionResult About()

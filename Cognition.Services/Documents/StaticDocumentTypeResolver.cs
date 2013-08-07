@@ -26,5 +26,21 @@ namespace Cognition.Services.Documents
             var document = (Document)Activator.CreateInstance(type);
             return document.GetFullName();
         }
+
+        public IEnumerable<DocumentTypeReference> AllAvailableTypes
+        {
+            get
+            {
+                return
+                    typeMaps.Keys.Select(
+                        t =>
+                            new DocumentTypeReference()
+                            {
+                                TypeName = t,
+                                Type = typeMaps[t],
+                                FullTypeName = GetDocumentTypeFullName(t)
+                            });
+            }
+        }
     }
 }
