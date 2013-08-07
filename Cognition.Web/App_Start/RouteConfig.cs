@@ -14,6 +14,12 @@ namespace Cognition.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                name: "Document",
+                url: "d/{type}/{action}/{id}",
+                defaults: new { controller = "Document", action = "List", id = UrlParameter.Optional }
+                );
+
             // using routes.MapRouteLowercase currently breaks Google sign in
             routes.MapRoute(
                 name: "Default",
