@@ -16,10 +16,10 @@ namespace Cognition.Web.Services
             return HttpContext.Current.User.Identity.GetUserName();
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public User GetUserByEmail(string email)
         {
             var context = new CognitionIdentityDbContext();
-            var user =  await context.Users.SingleOrDefaultAsync(u => u.UserName == email);
+            var user =  context.Users.SingleOrDefault(u => u.UserName == email);
             return user == null ? null : new User() { Email = email, FullName = user.Name };
         }
     }

@@ -296,6 +296,7 @@
     <Content Include="Views\Document\Edit.cshtml" />
     <Content Include="Views\Document\List.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DocumentDefault.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

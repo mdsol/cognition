@@ -33,17 +33,33 @@ input[type="checkbox"].input-validation-error {
   margin-top: 4px;
 }
 /* user info styles */
-#user-info-container .user-info-label,
-#user-info-container .user-info-name,
-#user-info-container .avatar {
-  display: inline;
+#user-info-container {
+  height: 40px;
+  margin-bottom: 4px;
+  margin-top: 4px;
 }
 #user-info-container .avatar {
   margin-top: 0px;
+  float: left;
+  margin-right: 8px;
 }
 #user-info-container .user-info-label {
   color: #666666;
+  display: inline-block;
+  min-width: 70%;
 }
 #user-info-container .user-info-name {
   margin-right: 10px;
+  display: inline-block;
+  min-width: 70%;
+}
+.display-sidebar .action-row {
+  margin-bottom: 20px;
+}
+.document-display-area .document-default-row .display-label {
+  color: #666;
+}
+.document-display-area hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
 }

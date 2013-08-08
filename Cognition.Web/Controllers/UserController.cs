@@ -17,9 +17,9 @@ namespace Cognition.Web.Controllers
             UserAuthenticationService = userAuthenticationService;
         }
 
-        public async Task<PartialViewResult> UserInfo(string id)
+        public PartialViewResult UserInfo(string id)
         {
-            var user = await UserAuthenticationService.GetUserByEmail(id) ?? new User() {Email = id, FullName = id};
+            var user = UserAuthenticationService.GetUserByEmail(id) ?? new User() {Email = id, FullName = id};
             return PartialView(user);
         }
     }

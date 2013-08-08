@@ -1,0 +1,48 @@
+﻿@functions {
+
+public bool ShouldShow(ModelMetadata metadata) {
+        return metadata.ShowForDisplay
+            && !metadata.IsComplexType
+            && !ViewData.TemplateInfo.Visited(metadata);
+    }
+}
+
+@if (Model == null)
+{
+    @ViewData.ModelMetadata.NullDisplayText
+}
+else if (ViewData.TemplateInfo.TemplateDepth > 1)
+{
+    @ViewData.ModelMetadata.SimpleDisplayText
+}
+else
+{
+
+    foreach (var prop in ViewData.ModelMetadata.Properties.Where(ShouldShow))
+    {
+        <div class="row document-default-row">
+            @if (prop.HideSurroundingHtml)
+            {
+
+                @Html.Display(prop.PropertyName)
+
+            }
+            else
+            {
+
+                if (!String.IsNullOrEmpty(prop.GetDisplayName()))
+                {
+                    <div class="display-label col-lg-3">
+                        @prop.GetDisplayName()
+                    </div>
+                }
+                <div class="display-field col-lg-9">
+                    @Html.Display(prop.PropertyName)
+                </div>
+            }
+
+        </div>
+       <hr/>  
+    } 
+}
+
