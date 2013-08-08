@@ -53,6 +53,9 @@
     <Reference Include="GravatarHelper">
       <HintPath>..\packages\GravatarHelper.3.2.2\lib\Net40\GravatarHelper.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0-beta1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -297,6 +300,7 @@
     <Content Include="Views\Document\List.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DocumentDefault.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MultilineText.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
