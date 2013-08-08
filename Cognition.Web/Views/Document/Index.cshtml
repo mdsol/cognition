@@ -8,8 +8,10 @@
 <div class="row">
     <div class="col-lg-9">
         <h1>@Model.Title</h1>
-        <h3>@Model.Subtitle</h3>
-        
+        @if (@String.IsNullOrWhiteSpace(Model.Subtitle))
+        {
+            <h3>@Model.Subtitle</h3>
+        }       
     </div>
     <div class="col-lg-3 text-right">
         <h1 class="text-muted">@Model.GetFullName()</h1>

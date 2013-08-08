@@ -8,7 +8,7 @@ namespace Cognition.Shared.Documents
     public class Document
     {
         [ScaffoldColumn(false)]
-        public virtual string Type
+        public string Type
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace Cognition.Shared.Documents
         public string LastUpdatedByUserId { get; set; }
         [Display(Order = -2)]
         [Required]
-        public string Title { get; set; }
+        public virtual string Title { get; set; }
         [Display(Order = -1)]
         public string Subtitle { get; set; }
     }

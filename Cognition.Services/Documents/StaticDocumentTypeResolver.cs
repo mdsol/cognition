@@ -12,7 +12,8 @@ namespace Cognition.Services.Documents
     {
         private static readonly Dictionary<string, Type> typeMaps = new Dictionary<string, Type>()
         {
-            {"issue", typeof(KnownIssue)}
+            {"issue", typeof(KnownIssue)},
+            {"kb", typeof(KnowledgeBaseArticle)}
         };
 
         public Type GetDocumentType(string type)

@@ -11,13 +11,6 @@ namespace Cognition.Documents.Library
 
     public class KnownIssue : Document
     {
-        [ScaffoldColumn(false)]
-        public override string Type
-        {
-            get;
-            set;
-        }
-
         public KnownIssue()
         {
             Type = "issue";

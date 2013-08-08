@@ -17,7 +17,7 @@ namespace Cognition.Web
             routes.MapRoute(
                 name: "Document",
                 url: "d/{type}/{action}/{id}",
-                defaults: new { controller = "Document", action = "List", id = UrlParameter.Optional }
+                defaults: new { controller = "Document", action = "Index", id = UrlParameter.Optional }
                 );
 
             // using routes.MapRouteLowercase currently breaks Google sign in
