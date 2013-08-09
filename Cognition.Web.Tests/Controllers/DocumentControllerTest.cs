@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Cognition.Shared.Changes;
 using Cognition.Shared.Documents;
 using Cognition.Shared.Users;
 using Cognition.Web.Controllers;
@@ -22,17 +23,22 @@ namespace Cognition.Web.Tests.Controllers
         private IFixture fixture;
         private IDocumentTypeResolver documentTypeResolver;
         private IUserAuthenticationService userAuthenticationService;
+        private IDocumentUpdateNotifier documentUpdateNotifier;
         private MockDocumentService documentService;
 
         private const string typeName = "test";
+        private const string userEmail = "user@email.com";
 
         [TestInitialize]
         public void Init()
         {
             documentTypeResolver = MockRepository.GenerateMock<IDocumentTypeResolver>();
             userAuthenticationService = MockRepository.GenerateMock<IUserAuthenticationService>();
+            documentUpdateNotifier = new MockDocumentUpdateNotifier();
+            userAuthenticationService.Stub(u => u.GetCurrentUserEmail()).Return(userEmail);
+            userAuthenticationService.Stub(u => u.GetUserByEmail(userEmail)).Return(new User());
             documentService = new MockDocumentService();
-            sut = new DocumentController(documentTypeResolver, documentService, userAuthenticationService);
+            sut = new DocumentController(documentTypeResolver, documentService, userAuthenticationService, documentUpdateNotifier);
             documentTypeResolver.Stub(d => d.GetDocumentType(typeName)).Return(typeof (TestDocument));
             fixture = new Fixture();
         }
@@ -65,7 +71,6 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Create_Post_SetsCurrentUserEmailAddressToCreatedByField()
         {
-            var userEmail = fixture.Create<string>();
             userAuthenticationService.Stub(s => s.GetCurrentUserEmail()).Return(userEmail);
             var formValues = SetupCreateAction();
 
@@ -174,7 +179,6 @@ namespace Cognition.Web.Tests.Controllers
             new TestControllerBuilder().InitializeController(sut);
             var formValues = new FormCollection() { { "Title", newTitle }, { "Id", existingDocument.Id }, { "Type", typeName }, { "PropertyOne", newPropertyOne } };
             sut.ValueProvider = formValues.ToValueProvider();
-            var userEmail = fixture.Create<string>();
             userAuthenticationService.Stub(u => u.GetCurrentUserEmail()).Return(userEmail);
 
             await sut.Edit(formValues);

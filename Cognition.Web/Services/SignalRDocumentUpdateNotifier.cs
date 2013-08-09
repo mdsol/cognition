@@ -17,10 +17,10 @@ namespace Cognition.Web.Services
             this.documentChangeService = documentChangeService;
         }
 
-        public async Task DocumentUpdated(DocumentUpdateNotification notification)
+        public async Task DocumentUpdated(DocumentChangeNotification notification)
         {
             await documentChangeService.AddChange(notification);
-            await PageUpdater.Instance.PageUpdated(notification);
+            await PageUpdater.Instance.PageChanged(notification);
         }
     }
 }

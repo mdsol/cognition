@@ -63,6 +63,8 @@ namespace Cognition.Web.Controllers
 
                 if (result.Success)
                 {
+                    await documentUpdateNotifier.DocumentUpdated(new DocumentCreatedNotification(newDocument,
+                        userAuthenticationService.GetUserByEmail(userAuthenticationService.GetCurrentUserEmail())));
                     return RedirectToAction("Index", new { id = result.NewId, type = newDocument.Type });
                 }
 

@@ -25,7 +25,7 @@ namespace Cognition.Web.Hubs
             set;
         }
 
-        public async Task PageUpdated(DocumentUpdateNotification documentUpdateNotification)
+        public async Task PageChanged(DocumentChangeNotification documentUpdateNotification)
         {
             await Clients.Group(documentUpdateNotification.DocumentId).pageUpdated(documentUpdateNotification.Type, documentUpdateNotification.Id);
 

@@ -97,6 +97,7 @@
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="Controllers\DocumentControllerTest.cs" />
     <Compile Include="Mocks\MockDocumentService.cs" />
+    <Compile Include="Mocks\MockDocumentUpdateNotifier.cs" />
     <Compile Include="Mocks\TestDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

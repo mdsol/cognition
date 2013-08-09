@@ -4,6 +4,6 @@ namespace Cognition.Shared.Changes
 {
     public interface IDocumentUpdateNotifier
     {
-        Task DocumentUpdated(DocumentUpdateNotification notification);
+        Task DocumentUpdated(DocumentChangeNotification notification);
     }
 }
