@@ -9,15 +9,35 @@
     <p class="lead">Work in progress.</p>
 </div>
 
-<h2>
-    Available document types
-</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <h2>
+            Available document types
+        </h2>
 
-<ul>
-    @foreach (var docType in Model)
-    {
-        <li>
-            @Html.ActionLink(docType.FullTypeName, "List", "Document", new {type = docType.TypeName}, new {})
-        </li>
-    }
-</ul>
+        <ul>
+            @foreach (var docType in Model)
+            {
+                    <li>
+                        @Html.ActionLink(docType.FullTypeName, "List", "Document", new { type = docType.TypeName }, new { })
+                        </li>
+            }
+            </ul>
+    </div>
+    <div class="col-lg-6">
+        <h2>Updates</h2>
+        @Html.Action("AllRecentPartial", "Changes")
+    </div>
+</div>
+
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery.timeago.js")
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("abbr.timeago").timeago();
+        });
+    </script>
+}

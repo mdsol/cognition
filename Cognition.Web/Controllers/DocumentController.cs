@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Cognition.Shared.Changes;
 using Cognition.Shared.Documents;
 using Cognition.Shared.Users;
 using Cognition.Web.ViewModels;
@@ -15,18 +16,26 @@ namespace Cognition.Web.Controllers
         private readonly IDocumentTypeResolver documentTypeResolver;
         private readonly IDocumentService documentService;
         private readonly IUserAuthenticationService userAuthenticationService;
+        private readonly IDocumentUpdateNotifier documentUpdateNotifier;
 
-        public DocumentController(IDocumentTypeResolver documentTypeResolver, IDocumentService documentService, IUserAuthenticationService userAuthenticationService)
+        public DocumentController(IDocumentTypeResolver documentTypeResolver, IDocumentService documentService, IUserAuthenticationService userAuthenticationService, IDocumentUpdateNotifier documentUpdateNotifier)
         {
             this.documentTypeResolver = documentTypeResolver;
             this.documentService = documentService;
             this.userAuthenticationService = userAuthenticationService;
+            this.documentUpdateNotifier = documentUpdateNotifier;
         }
 
         public async Task<ActionResult> Index(string id, string type)
         {
             var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
             return View(result.Document);
+        }
+
+        public async Task<ActionResult> IndexPartial(string id, string type)
+        {
+            var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
+            return PartialView("_Index", result.Document);
         }
 
         public ActionResult Create(string type)
@@ -86,6 +95,9 @@ namespace Cognition.Web.Controllers
                 var result = await documentService.UpdateDocument(formCollection["Id"], existingDocument);
                 if (result.Success)
                 {
+                    await documentUpdateNotifier.DocumentUpdated(new DocumentUpdateNotification(existingDocument,
+                            userAuthenticationService.GetUserByEmail(userAuthenticationService.GetCurrentUserEmail())));
+
                     return RedirectToAction("Index", new { id = formCollection["Id"], type = formCollection["Type"] });
                 }
             }

@@ -63,3 +63,12 @@ input[type="checkbox"].input-validation-error {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+.change-notification img.avatar {
+  float: left;
+  margin-top: 0px;
+  margin-bottom: 4px;
+  margin-right: 8px;
+}
+.change-notification .change-notification-status {
+  padding-left: 48px;
+}

@@ -1,0 +1,8 @@
+﻿@model System.Collections.Generic.IEnumerable<Cognition.Shared.Changes.DocumentChangeNotification>
+
+<div id="changes-all-container">
+    @foreach (var change in Model)
+    {
+        @Html.Partial("_Change", change)
+    }
+</div>

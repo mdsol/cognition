@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Cognition.Changes.Entity;
 using Cognition.Documents.CouchDb;
 using Cognition.Services.Documents;
+using Cognition.Shared.Changes;
 using Cognition.Shared.Configuration;
 using Cognition.Shared.Documents;
 using Cognition.Shared.Users;
@@ -33,6 +35,8 @@ namespace Cognition.Web
             Container.RegisterType<IDocumentTypeResolver, StaticDocumentTypeResolver>();
             Container.RegisterType<IUserAuthenticationService, AspNetUserAuthenticationService>();
             Container.RegisterType<IDocumentService, CouchDbDocumentService>();
+            Container.RegisterType<IDocumentUpdateNotifier, SignalRDocumentUpdateNotifier>();
+            Container.RegisterType<IDocumentChangeService, EFDocumentChangeService>();
         }
     }
 }

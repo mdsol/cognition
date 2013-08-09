@@ -11,6 +11,12 @@ namespace Cognition.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
+                        "~/Scripts/jquery.signalR-2.0.0-beta2.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery.timeago.js").Include(
+                        "~/Scripts/jquery.timeago.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
@@ -40,6 +46,9 @@ namespace Cognition.Web
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/document/index").Include(
+                        "~/Scripts/Document/Index.js"));
         }
     }
 }

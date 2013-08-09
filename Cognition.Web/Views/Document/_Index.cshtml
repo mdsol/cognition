@@ -1,0 +1,24 @@
+﻿@model Cognition.Shared.Documents.Document
+ <div class="col-lg-9 document-display-area">@Html.DisplayForModel("DocumentDefault")</div>
+    <div class="col-lg-3 display-sidebar">
+        <div class="action-row">
+            @Html.ActionLink("Edit","Edit", new {id = Model.Id, type = Model.Type}, new {@class = "btn btn-primary"})
+        </div>
+        @if (!String.IsNullOrWhiteSpace(Model.CreatedByUserId))
+        {
+            <div id="user-info-container">
+                <span class="user-info-label">Created by</span>
+                @Html.Action("UserInfo", "User", new {id = Model.CreatedByUserId})
+
+            </div>
+        }
+        @if (!String.IsNullOrWhiteSpace(Model.LastUpdatedByUserId))
+        {<div id="user-info-container">
+             <span class="user-info-label">Last Updated by</span>
+             @Html.Action("UserInfo","User", new {id = Model.LastUpdatedByUserId})
+         </div>
+        }
+
+        
+
+    </div>
