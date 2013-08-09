@@ -14,9 +14,9 @@ namespace Cognition.Web.Tests.Mocks
             return "Test Document";
         }
 
-        public override string Type
+        public TestDocument()
         {
-            get { return "test"; }
+            Type = "test";
         }
 
         public string PropertyOne { get; set; }
