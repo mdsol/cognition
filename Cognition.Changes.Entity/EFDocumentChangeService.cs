@@ -36,5 +36,13 @@ namespace Cognition.Changes.Entity
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task<DocumentChangeNotification> GetSingleAsync(Guid id)
+        {
+            using (var context = new ChangesContext())
+            {
+                return await context.DocumentChangeNotifications.FindAsync(id);
+            }
+        }
     }
 }

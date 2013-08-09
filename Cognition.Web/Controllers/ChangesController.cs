@@ -22,5 +22,10 @@ namespace Cognition.Web.Controllers
             var recent = documentChangeService.GetLatestChanges(20);
             return PartialView(recent);
         }
+
+        public async Task<PartialViewResult> GetSingleChange(string id)
+        {
+            return PartialView("_Change", await documentChangeService.GetSingleAsync(new Guid(id)));
+        }
     }
 }

@@ -27,8 +27,10 @@ namespace Cognition.Web.Hubs
 
         public async Task PageUpdated(DocumentUpdateNotification documentUpdateNotification)
         {
-            // todo: filter by group
             await Clients.Group(documentUpdateNotification.DocumentId).pageUpdated(documentUpdateNotification.Type, documentUpdateNotification.Id);
+
+            await Clients.Group("all").allChangeNotification(documentUpdateNotification.Id);
+
         }
 
         public static PageUpdater Instance

@@ -49,6 +49,9 @@ namespace Cognition.Web
 
             bundles.Add(new ScriptBundle("~/bundles/document/index").Include(
                         "~/Scripts/Document/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/home/index").Include(
+                        "~/Scripts/Home/Index.js"));
         }
     }
 }
