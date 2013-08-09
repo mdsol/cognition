@@ -4,7 +4,7 @@ namespace Cognition.Web
 {
     public partial class Startup 
     {
-        public void Configuration(IAppBuilder app) 
+        public void Configuration(IAppBuilder app)
         {
             ConfigureMigrations(app);
             ConfigureUnity(app);
