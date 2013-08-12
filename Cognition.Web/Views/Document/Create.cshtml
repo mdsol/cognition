@@ -1,12 +1,13 @@
 ﻿@model Cognition.Shared.Documents.Document
 @{
-    ViewBag.Title = "Create new " + Model.GetFullName();
+    ViewBag.PageTitle = "Create new " + Model.GetFullName();
 }
 
-<h1>@ViewBag.Title</h1>
+<h1>@ViewBag.PageTitle</h1>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","Document",FormMethod.Post, new { @class="form-horizontal"}))
 {
+<fieldset>
     @Html.AntiForgeryToken()
     
     @Html.HiddenFor(m => m.Type)
@@ -14,5 +15,6 @@
     @Html.EditorForModel("DocumentDefault")
     
     <button type="submit" class="btn btn-primary">Create</button>
+</fieldset>
 }
 
