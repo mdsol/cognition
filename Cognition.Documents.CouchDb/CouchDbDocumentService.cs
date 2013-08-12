@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Cognition.Shared.Configuration;
@@ -90,6 +91,78 @@ namespace Cognition.Documents.CouchDb
                 {
                     var document = await JsonConvert.DeserializeObjectAsync<Document>(documentResponse.Content);
                     result.Amount = document.Attachments.Count(d => d.Key.StartsWith("version-"));
+
+                    result.Success = true;
+                }
+
+                return result;
+            }
+        }
+
+        public async Task<DocumentGetVersionResult> GetDocumentVersionAsType(string id, Type type, string versionId)
+        {
+            using (var db = GetDb())
+            {
+                var result = new DocumentGetVersionResult();
+
+                var versionAttachmentResult =
+                            await
+                                db.Connection.SendAsync(new HttpRequestMessage(HttpMethod.Get, appSettingProvider.GetString("CouchDb") +
+                                    String.Format("/{0}/{1}", id, "version-" + versionId)));
+
+                if (versionAttachmentResult.IsSuccessStatusCode)
+                {
+                    result.Success = true;
+
+                    var versionAttachment = await JsonConvert.DeserializeObjectAsync<DocumentVersionAttachment>(await versionAttachmentResult.Content.ReadAsStringAsync());
+                    result.DateTime = versionAttachment.DateTime;
+                    result.UserId = versionAttachment.UserId;
+                    result.VersionId = versionAttachment.VersionId;
+
+                    result.Document = await JsonConvert.DeserializeObjectAsync(versionAttachment.Content, type, new JsonSerializerSettings()) as Document;
+
+                }
+
+
+                return result;
+
+            }
+        }
+
+        public async Task<DocumentAvailableVersionsResult> GetAvailableVersions(string id)
+        {
+            using (var db = GetDb())
+            {
+                var documentResponse = await db.Documents.GetAsync(new GetDocumentCommand(id));
+                var result = new DocumentAvailableVersionsResult();
+                if (documentResponse.IsSuccess)
+                {
+                    var document = await JsonConvert.DeserializeObjectAsync<Document>(documentResponse.Content);
+
+                    var versionList = new List<DocumentAvailableVersion>();
+                    result.Versions = versionList;
+                    foreach (var attachment in document.Attachments)
+                    {
+                        var versionAttachmentResult =
+                            await
+                                db.Connection.SendAsync(new HttpRequestMessage(HttpMethod.Get,appSettingProvider.GetString("CouchDb") +
+                                    String.Format("/{0}/{1}", id, attachment.Key)));
+                        if (versionAttachmentResult.IsSuccessStatusCode)
+                        {
+                            var versionAttachment = await JsonConvert.DeserializeObjectAsync<DocumentVersionAttachment>(await versionAttachmentResult.Content.ReadAsStringAsync());
+                            var version = new DocumentAvailableVersion
+                            {
+                                VersionId = versionAttachment.VersionId,
+                                DateTime = versionAttachment.DateTime,
+                                UserId = versionAttachment.UserId
+                            };
+
+                            versionList.Add(version);
+                        }
+                        
+                    }
+
+                    result.Success = true;
                 }
 
                 return result;

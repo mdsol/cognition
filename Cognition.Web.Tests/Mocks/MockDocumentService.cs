@@ -58,5 +58,15 @@ namespace Cognition.Web.Tests.Mocks
             return !Versions.ContainsKey(id) ? new DocumentCountAvailableVersionsResult() {Amount = 0, Success = true} :
                 new DocumentCountAvailableVersionsResult() { Amount = Versions[id].Count(), Success = true };
         }
+
+        public async Task<DocumentAvailableVersionsResult> GetAvailableVersions(string id)
+        {
+            return new DocumentAvailableVersionsResult();
+        }
+
+        public async Task<DocumentGetVersionResult> GetDocumentVersionAsType(string id, Type type, string versionId)
+        {
+            return new DocumentGetVersionResult();
+        }
     }
 }

@@ -1,0 +1,46 @@
+﻿@model Cognition.Web.ViewModels.DocumentVersionViewModel
+
+@{
+    ViewBag.Title = "Version history of " + Model.CurrentVersion.Title;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2>@ViewBag.Title</h2>
+    </div>
+</div>
+<hr/>
+
+<div class="row">
+    <div class="col-lg-3">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="@(Model.SelectedVersionId == null ? "active" : "not-active")">
+                @Html.ActionLink("Current Version", "Version", new {id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type})
+            </li>
+            @foreach (var version in Model.AvailableVersions)
+            {
+                <li class="@(Model.SelectedVersionId == version.VersionId ? "active" : "not-active")">
+                    
+                    <a href="@Url.Action("Version", new {id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type, v = version.VersionId})">
+                    @version.DateTime.ToShortDateString() @version.DateTime.ToShortTimeString()
+                </a>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col-lg-9 document-display-area">
+        
+        @if (String.IsNullOrWhiteSpace(Model.SelectedVersionId))
+        {
+            @Html.DisplayFor(m => m.CurrentVersion, "DocumentDefault")
+        }
+        else
+        {
+            @Html.DisplayFor(m => m.SelectedVersion, "DocumentDefault")
+        }
+            
+    </div>
+</div>
+
+

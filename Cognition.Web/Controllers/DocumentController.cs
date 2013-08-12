@@ -148,5 +148,31 @@ namespace Cognition.Web.Controllers
 
             
         }
+
+        public async Task<ActionResult> Version(string id, string type, string v = null)
+        {
+            var documentType = documentTypeResolver.GetDocumentType(type);
+            var currentResult = await documentService.GetDocumentAsType(id, documentType);
+            var versionsResult =  await documentService.GetAvailableVersions(id);
+            if (!currentResult.Success) throw new Exception("Could not load current version.");
+            if (!versionsResult.Success) throw new Exception("Could not load versions.");
+
+            var viewModel = new DocumentVersionViewModel();
+            viewModel.AvailableVersions = versionsResult.Versions.OrderByDescending(ver => ver.DateTime);
+            viewModel.CurrentVersion = currentResult.Document;
+
+            if (!String.IsNullOrWhiteSpace(v))
+            {
+                var versionResult = await documentService.GetDocumentVersionAsType(id, documentType, v);
+                if (versionResult.Success)
+                {
+                    viewModel.SelectedVersionId = v;
+                    viewModel.SelectedVersion = versionResult.Document;
+                }
+            }
+
+            return View(viewModel);
+
+        }
     }
 }

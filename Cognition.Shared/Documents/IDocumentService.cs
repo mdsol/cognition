@@ -15,5 +15,9 @@ namespace Cognition.Shared.Documents
         Task<DocumentListResult> GetDocumentList(Type type, string typeName, int pageSize, int pageIndex);
 
         Task<DocumentCountAvailableVersionsResult> CountAvailableVersions(string id);
+
+        Task<DocumentAvailableVersionsResult> GetAvailableVersions(string id);
+
+        Task<DocumentGetVersionResult> GetDocumentVersionAsType(string id, Type type, string versionId);
     }
 }

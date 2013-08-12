@@ -1,5 +1,7 @@
 ﻿@model Cognition.Web.ViewModels.DocumentViewViewModel
- <div class="col-lg-9 document-display-area">@Html.DisplayFor(m => m.Document, "DocumentDefault")</div>
+<div class="col-lg-9 document-display-area">
+    @Html.DisplayFor(m => m.Document, "DocumentDefault")
+</div>
     <div class="col-lg-3 display-sidebar">
         <div class="action-row">
             @Html.ActionLink("Edit","Edit", new {id = Model.Document.Id, type = Model.Document.Type}, new {@class = "btn btn-primary"})
@@ -19,7 +21,7 @@
          </div>
         }
 
-        <p>@Model.PreviousVersionCount previous versions</p>
+        <p>@Html.ActionLink(Model.PreviousVersionCount + " previous versions", "Version", new { id = Model.Document.Id})</p>
 
         
 
