@@ -29,13 +29,27 @@ namespace Cognition.Web.Controllers
         public async Task<ActionResult> Index(string id, string type)
         {
             var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
-            return View(result.Document);
+            var availableVersionResult = await documentService.CountAvailableVersions(id);
+            var viewModel = new DocumentViewViewModel
+            {
+                Document = result.Document,
+                PreviousVersionCount = availableVersionResult.Amount
+            };
+            return View(viewModel);
         }
 
         public async Task<ActionResult> IndexPartial(string id, string type)
         {
             var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
-            return PartialView("_Index", result.Document);
+            var availableVersionResult = await documentService.CountAvailableVersions(id);
+
+            var viewModel = new DocumentViewViewModel
+            {
+                Document = result.Document,
+                PreviousVersionCount = availableVersionResult.Amount
+            };
+
+            return PartialView("_Index", viewModel);
         }
 
         public ActionResult Create(string type)

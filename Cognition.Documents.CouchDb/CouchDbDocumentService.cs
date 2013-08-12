@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,6 +77,22 @@ namespace Cognition.Documents.CouchDb
 
                 return updateResult;
 
+            }
+        }
+
+        public async Task<DocumentCountAvailableVersionsResult> CountAvailableVersions(string id)
+        {
+            using (var db = GetDb())
+            {
+                var documentResponse = await db.Documents.GetAsync(new GetDocumentCommand(id));
+                var result = new DocumentCountAvailableVersionsResult();
+                if (documentResponse.IsSuccess)
+                {
+                    var document = await JsonConvert.DeserializeObjectAsync<Document>(documentResponse.Content);
+                    result.Amount = document.Attachments.Count(d => d.Key.StartsWith("version-"));
+                }
+
+                return result;
             }
         }
 

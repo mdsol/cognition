@@ -46,6 +46,7 @@
     <Compile Include="Changes\DocumentCreatedNotification.cs" />
     <Compile Include="Changes\IDocumentChangeService.cs" />
     <Compile Include="Configuration\IAppSettingProvider.cs" />
+    <Compile Include="DocumentService\DocumentCountAvailableVersionsResult.cs" />
     <Compile Include="DocumentService\DocumentCreateResult.cs" />
     <Compile Include="DocumentService\DocumentGetResult.cs" />
     <Compile Include="DocumentService\DocumentListResult.cs" />

@@ -130,7 +130,9 @@ namespace Cognition.Web.Tests.Controllers
 
             var result = (ViewResult)sut.Index(id, typeName).Result;
 
-            Assert.AreEqual(document, result.Model);
+            var viewModel = (DocumentViewViewModel) result.Model;
+
+            Assert.AreEqual(document, viewModel.Document);
 
         }
 

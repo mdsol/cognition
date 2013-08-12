@@ -1,23 +1,25 @@
-﻿@model Cognition.Shared.Documents.Document
- <div class="col-lg-9 document-display-area">@Html.DisplayForModel("DocumentDefault")</div>
+﻿@model Cognition.Web.ViewModels.DocumentViewViewModel
+ <div class="col-lg-9 document-display-area">@Html.DisplayFor(m => m.Document, "DocumentDefault")</div>
     <div class="col-lg-3 display-sidebar">
         <div class="action-row">
-            @Html.ActionLink("Edit","Edit", new {id = Model.Id, type = Model.Type}, new {@class = "btn btn-primary"})
+            @Html.ActionLink("Edit","Edit", new {id = Model.Document.Id, type = Model.Document.Type}, new {@class = "btn btn-primary"})
         </div>
-        @if (!String.IsNullOrWhiteSpace(Model.CreatedByUserId))
+        @if (!String.IsNullOrWhiteSpace(Model.Document.CreatedByUserId))
         {
             <div id="user-info-container">
                 <span class="user-info-label">Created by</span>
-                @Html.Action("UserInfo", "User", new {id = Model.CreatedByUserId})
+                @Html.Action("UserInfo", "User", new {id = Model.Document.CreatedByUserId})
 
             </div>
         }
-        @if (!String.IsNullOrWhiteSpace(Model.LastUpdatedByUserId))
+        @if (!String.IsNullOrWhiteSpace(Model.Document.LastUpdatedByUserId))
         {<div id="user-info-container">
              <span class="user-info-label">Last Updated by</span>
-             @Html.Action("UserInfo","User", new {id = Model.LastUpdatedByUserId})
+             @Html.Action("UserInfo","User", new {id = Model.Document.LastUpdatedByUserId})
          </div>
         }
+
+        <p>@Model.PreviousVersionCount previous versions</p>
 
         
 

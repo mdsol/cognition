@@ -11,6 +11,7 @@ namespace Cognition.Web.Tests.Mocks
     public class MockDocumentService : IDocumentService
     {
         public List<Document> Documents = new List<Document>();
+        public Dictionary<string, IList<Document>> Versions = new Dictionary<string, IList<Document>>();
 
         public async Task<DocumentCreateResult> CreateNewDocument(dynamic document)
         {
@@ -23,6 +24,14 @@ namespace Cognition.Web.Tests.Mocks
         {
             var existing = Documents.Single(d => d.Id == id);
             Documents.Remove(existing);
+            if (!Versions.ContainsKey(id))
+            {
+                Versions[id] = new List<Document>() { existing };
+            }
+            else
+            {
+                Versions[id].Add(existing);
+            }
             Documents.Add((Document)document);
             return new DocumentUpdateResult() { Success = true };
         }
@@ -36,12 +45,18 @@ namespace Cognition.Web.Tests.Mocks
         {
             return new DocumentListResult()
             {
-                Documents = Documents.Where(d => d.Type == typeName).Skip(pageSize*pageIndex).Take(pageSize).Select(r => new DocumentReference() { Id = r.Id, Title = r.Title, Type = r.Type}),
+                Documents = Documents.Where(d => d.Type == typeName).Skip(pageSize * pageIndex).Take(pageSize).Select(r => new DocumentReference() { Id = r.Id, Title = r.Title, Type = r.Type }),
                 TotalDocuments = Documents.Count,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 Success = true
             };
+        }
+
+        public async Task<DocumentCountAvailableVersionsResult> CountAvailableVersions(string id)
+        {
+            return !Versions.ContainsKey(id) ? new DocumentCountAvailableVersionsResult() {Amount = 0, Success = true} :
+                new DocumentCountAvailableVersionsResult() { Amount = Versions[id].Count(), Success = true };
         }
     }
 }
