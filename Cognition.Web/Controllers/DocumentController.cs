@@ -88,6 +88,7 @@ namespace Cognition.Web.Controllers
                 modelType);
 
             dynamic existingDocument = existingDocumentGetResult.Document;
+            
             if (TryUpdateModel(existingDocument))
             {
                 ((Document) existingDocument).LastUpdatedByUserId = userAuthenticationService.GetCurrentUserEmail();

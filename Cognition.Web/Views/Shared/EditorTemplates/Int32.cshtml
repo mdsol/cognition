@@ -1,0 +1,12 @@
+﻿@model Int32
+@{
+    var validationAttributes = Html.GetUnobtrusiveValidationAttributes("");
+}
+@Html.TextBox("",
+    ViewData.TemplateInfo.FormattedModelValue, new RouteValueDictionary(validationAttributes)
+    {
+        {"class", "text-box single-line form-control number-form-control"}
+    }
+)
+
+

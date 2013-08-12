@@ -32,7 +32,6 @@ namespace Cognition.Documents.Library
         [Required]
         public int? ArticleNumber { get; set; }
 
-        [DataType(DataType.Text)]
         [Display(Name = "Article title")]
         [Required]
         public string ArticleTitle { get; set; }
