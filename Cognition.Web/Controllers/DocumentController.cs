@@ -55,9 +55,8 @@ namespace Cognition.Web.Controllers
         {
             var newDocument = GetNewDocument(formCollection["Type"]);
 
-            if (ModelState.IsValid)
+            if (TryUpdateModel(newDocument))
             {
-                UpdateModel(newDocument);
                 ((Document) newDocument).CreatedByUserId = userAuthenticationService.GetCurrentUserEmail();
                 var result = await documentService.CreateNewDocument(newDocument);
 
@@ -84,15 +83,13 @@ namespace Cognition.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(FormCollection formCollection)
         {
-
+            var modelType = documentTypeResolver.GetDocumentType(formCollection["Type"]);
             var existingDocumentGetResult = await documentService.GetDocumentAsType(formCollection["Id"],
-                documentTypeResolver.GetDocumentType(formCollection["Type"]));
+                modelType);
 
             dynamic existingDocument = existingDocumentGetResult.Document;
-
-            if (ModelState.IsValid)
+            if (TryUpdateModel(existingDocument))
             {
-                UpdateModel(existingDocument);
                 ((Document) existingDocument).LastUpdatedByUserId = userAuthenticationService.GetCurrentUserEmail();
                 var result = await documentService.UpdateDocument(formCollection["Id"], existingDocument);
                 if (result.Success)

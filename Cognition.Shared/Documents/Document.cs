@@ -50,9 +50,12 @@ namespace Cognition.Shared.Documents
 
         [ScaffoldColumn(false)]
         public string LastUpdatedByUserId { get; set; }
+
         [Display(Order = -2)]
         [Required]
+        [MaxLength(100)]
         public virtual string Title { get; set; }
+
         [Display(Order = -1)]
         public string Subtitle { get; set; }
     }

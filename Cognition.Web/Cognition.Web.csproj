@@ -337,6 +337,10 @@
     <Content Include="Views\Document\_Index.cshtml" />
     <Content Include="Views\Changes\AllRecentPartial.cshtml" />
     <Content Include="Views\Changes\_Change.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DocumentDefault.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Enum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

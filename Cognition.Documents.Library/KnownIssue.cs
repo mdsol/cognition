@@ -21,10 +21,9 @@ namespace Cognition.Documents.Library
             return "Known Issue";
         }
 
-        [DataType(DataType.Text)]
+        [Required]
         public string Symptoms { get; set; }
 
-        [DataType(DataType.Text)]
         public string Workarounds { get; set; }
 
         [Display(Name = "Applies to version")]
@@ -42,6 +41,7 @@ namespace Cognition.Documents.Library
         }
 
         [Display(Name = "Issue Severity")]
+        [DataType("Enum")]
         public Severity IssueSeverity { get; set; }
         
     }

@@ -1,0 +1,38 @@
+﻿@functions {
+
+public bool ShouldShow(ModelMetadata metadata) {
+        return metadata.ShowForDisplay
+            && !metadata.IsComplexType
+            && !ViewData.TemplateInfo.Visited(metadata);
+    }
+}
+
+@if (ViewData.TemplateInfo.TemplateDepth > 1) { 
+    if (Model == null) {
+        @ViewData.ModelMetadata.NullDisplayText
+    } else {
+        @ViewData.ModelMetadata.SimpleDisplayText
+    }
+} else {
+    foreach (var prop in ViewData.ModelMetadata.Properties.Where(ShouldShow)) {
+        <div class="form-group">
+            @if (prop.HideSurroundingHtml)
+            {
+            @Html.Editor(prop.PropertyName)
+            } 
+            else if (!String.IsNullOrEmpty(Html.Label(prop.PropertyName).ToHtmlString())) {
+            
+            @Html.Label(prop.PropertyName,new {@class = "col-lg-2 control-label"})
+            
+            }
+            <div class="col-lg-8">
+                @Html.Editor(prop.PropertyName)
+            
+                @Html.ValidationMessage(prop.PropertyName)
+            </div>
+
+
+        </div>
+}
+}
+

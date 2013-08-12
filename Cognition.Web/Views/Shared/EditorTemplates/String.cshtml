@@ -1,24 +1,12 @@
-﻿@model object
-@if (ViewData.ModelMetadata.ModelType.IsEnum)
-{
-
-    
-    var values = Enum.GetValues(ViewData.ModelMetadata.ModelType);
-    var names = Enum.GetNames(ViewData.ModelMetadata.ModelType);
-    var items = new List<SelectListItem>();
-    for (var i = 0; i < values.Length; i++)
+﻿@model string
+@{
+    var validationAttributes = Html.GetUnobtrusiveValidationAttributes("");
+}
+@Html.TextBox("",
+    ViewData.TemplateInfo.FormattedModelValue, new RouteValueDictionary(validationAttributes)
     {
-        items.Add(new SelectListItem() { Text = names[i], Value = values.GetValue(i).ToString(), Selected = (Model.ToString() == values.GetValue(i).ToString()) });
+        {"class", "text-box single-line form-control"}
     }
-    
-    @Html.DropDownList("", items)
+)
 
-}
-else
-{
-    @Html.TextBox(
-        "",
-        ViewData.TemplateInfo.FormattedModelValue,
-        new { @class = "text-box single-line" }
-    )
-}
+

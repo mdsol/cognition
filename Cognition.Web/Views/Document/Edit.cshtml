@@ -5,15 +5,17 @@
 
 <h1>@ViewBag.Title</h1>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","Document",FormMethod.Post, new { @class="form-horizontal"}))
 {
+<fieldset>
     @Html.AntiForgeryToken()
     
     @Html.HiddenFor(m => m.Type)
     @Html.HiddenFor(m => m.Id)
     
-    @Html.EditorForModel()
+    @Html.EditorForModel("DocumentDefault")
     
     <button type="submit" class="btn btn-primary">Edit</button>
+</fieldset>
 }
 
