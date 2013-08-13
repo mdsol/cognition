@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AppSettingPermissionTokenProvider.cs" />
     <Compile Include="Documents\StaticDocumentTypeResolver.cs" />
+    <Compile Include="Permissions\TokenStringPermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

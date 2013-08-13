@@ -46,6 +46,7 @@
     <Compile Include="Changes\DocumentCreatedNotification.cs" />
     <Compile Include="Changes\IDocumentChangeService.cs" />
     <Compile Include="Configuration\IAppSettingProvider.cs" />
+    <Compile Include="Configuration\IPermissionTokenProvider.cs" />
     <Compile Include="DocumentService\DocumentAvailableVersionsResult.cs" />
     <Compile Include="DocumentService\DocumentCountAvailableVersionsResult.cs" />
     <Compile Include="DocumentService\DocumentCreateResult.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Changes\DocumentChangeNotification.cs" />
     <Compile Include="Changes\DocumentUpdateNotification.cs" />
     <Compile Include="Changes\IDocumentUpdateNotifier.cs" />
+    <Compile Include="Permissions\IPermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\IUserAuthenticationService.cs" />
     <Compile Include="Users\User.cs" />

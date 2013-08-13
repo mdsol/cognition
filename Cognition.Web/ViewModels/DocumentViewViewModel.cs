@@ -10,5 +10,6 @@ namespace Cognition.Web.ViewModels
     {
         public Document Document { get; set; }
         public long PreviousVersionCount { get; set; }
+        public bool CanEdit { get; set; }
     }
 }

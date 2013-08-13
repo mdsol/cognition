@@ -2,28 +2,33 @@
 <div class="col-lg-9 document-display-area">
     @Html.DisplayFor(m => m.Document, "DocumentDefault")
 </div>
-    <div class="col-lg-3 display-sidebar">
+<div class="col-lg-3 display-sidebar">
+    @if (Model.CanEdit)
+    {
         <div class="action-row">
-            @Html.ActionLink("Edit","Edit", new {id = Model.Document.Id, type = Model.Document.Type}, new {@class = "btn btn-primary"})
+            @Html.ActionLink("Edit", "Edit", new {id = Model.Document.Id, type = Model.Document.Type}, new {@class = "btn btn-primary"})
         </div>
-        @if (!String.IsNullOrWhiteSpace(Model.Document.CreatedByUserId))
-        {
-            <div id="user-info-container">
-                <span class="user-info-label">Created by</span>
-                @Html.Action("UserInfo", "User", new {id = Model.Document.CreatedByUserId})
+    }
+    @if (!String.IsNullOrWhiteSpace(Model.Document.CreatedByUserId))
+    {
+        <div id="user-info-container">
+            <span class="user-info-label">Created by</span>
+            @Html.Action("UserInfo", "User", new {id = Model.Document.CreatedByUserId})
 
-            </div>
-        }
-        @if (!String.IsNullOrWhiteSpace(Model.Document.LastUpdatedByUserId))
-        {<div id="user-info-container">
-             <span class="user-info-label">Last Updated by</span>
-             @Html.Action("UserInfo","User", new {id = Model.Document.LastUpdatedByUserId})
-         </div>
-        }
+        </div>
+    }
+    @if (!String.IsNullOrWhiteSpace(Model.Document.LastUpdatedByUserId))
+    {<div id="user-info-container">
+         <span class="user-info-label">Last Updated by</span>
+         @Html.Action("UserInfo","User", new {id = Model.Document.LastUpdatedByUserId})
+     </div>
+    }
         
-        <br />
-        <p>@Html.ActionLink(Model.PreviousVersionCount + " previous versions", "Version", new { id = Model.Document.Id})</p>
-
+    <br />
+    @if (Model.CanEdit)
+    {
+        <p>@Html.ActionLink(Model.PreviousVersionCount + " previous versions", "Version", new {id = Model.Document.Id})</p>
+    }
         
 
-    </div>
+</div>

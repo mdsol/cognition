@@ -8,6 +8,7 @@ namespace Cognition.Shared.Users
 {
     public interface IUserAuthenticationService
     {
+        bool IsAuthenticated { get; }
         string GetCurrentUserEmail();
         User GetUserByEmail(string email);
     }

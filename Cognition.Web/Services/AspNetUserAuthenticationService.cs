@@ -11,6 +11,8 @@ namespace Cognition.Web.Services
 {
     public class AspNetUserAuthenticationService : IUserAuthenticationService
     {
+        public bool IsAuthenticated { get { return HttpContext.Current.User.Identity.IsAuthenticated; } }
+
         public string GetCurrentUserEmail()
         {
             return HttpContext.Current.User.Identity.GetUserName();
@@ -19,7 +21,7 @@ namespace Cognition.Web.Services
         public User GetUserByEmail(string email)
         {
             var context = new CognitionIdentityDbContext();
-            var user =  context.Users.SingleOrDefault(u => u.UserName == email);
+            var user = context.Users.SingleOrDefault(u => u.UserName == email);
             return user == null ? null : new User() { Email = email, FullName = user.Name };
         }
     }

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cognition.Shared.Changes;
 using Cognition.Shared.Documents;
+using Cognition.Shared.Permissions;
 using Cognition.Shared.Users;
 using Cognition.Web.ViewModels;
 
@@ -17,44 +18,66 @@ namespace Cognition.Web.Controllers
         private readonly IDocumentService documentService;
         private readonly IUserAuthenticationService userAuthenticationService;
         private readonly IDocumentUpdateNotifier documentUpdateNotifier;
+        private readonly IPermissionService permissionService;
 
-        public DocumentController(IDocumentTypeResolver documentTypeResolver, IDocumentService documentService, IUserAuthenticationService userAuthenticationService, IDocumentUpdateNotifier documentUpdateNotifier)
+        public DocumentController(IDocumentTypeResolver documentTypeResolver, IDocumentService documentService, IUserAuthenticationService userAuthenticationService, IDocumentUpdateNotifier documentUpdateNotifier, IPermissionService permissionService)
         {
             this.documentTypeResolver = documentTypeResolver;
             this.documentService = documentService;
             this.userAuthenticationService = userAuthenticationService;
             this.documentUpdateNotifier = documentUpdateNotifier;
+            this.permissionService = permissionService;
+        }
+
+        private bool CurrentUserCanViewDocument(Document document)
+        {
+            switch (document.Visibility)
+            {
+                case Document.VisibilityStatus.Internal:
+                    return permissionService.CurrentUserCanViewInternal();
+                case Document.VisibilityStatus.Public:
+                    return permissionService.CurrentUserCanViewPublic();
+                default:
+                    throw new Exception("Unknown Document visibility status.");
+            }
+        }
+
+        private bool CurrentUserCanEdit()
+        {
+            return permissionService.CurrentUserCanEdit();
         }
 
         public async Task<ActionResult> Index(string id, string type)
         {
             var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
             var availableVersionResult = await documentService.CountAvailableVersions(id);
+
+            if (!CurrentUserCanViewDocument(result.Document)) return new HttpUnauthorizedResult();
+
             var viewModel = new DocumentViewViewModel
             {
                 Document = result.Document,
-                PreviousVersionCount = availableVersionResult.Amount
+                PreviousVersionCount = availableVersionResult.Amount,
+                CanEdit = CurrentUserCanEdit()
             };
+
             return View(viewModel);
         }
 
         public async Task<ActionResult> IndexPartial(string id, string type)
         {
-            var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
-            var availableVersionResult = await documentService.CountAvailableVersions(id);
+            var indexResult = await Index(id, type);
 
-            var viewModel = new DocumentViewViewModel
-            {
-                Document = result.Document,
-                PreviousVersionCount = availableVersionResult.Amount
-            };
-
-            return PartialView("_Index", viewModel);
+            return PartialView("_Index", ((ViewResult)indexResult).Model);
         }
 
         public ActionResult Create(string type)
         {
-            return View(GetNewDocument(type));
+            var newDocument = GetNewDocument(type);
+            
+            if (!CurrentUserCanEdit()) return new HttpUnauthorizedResult();
+
+            return View(newDocument);
         }
 
         private dynamic GetNewDocument(string type)
@@ -68,6 +91,8 @@ namespace Cognition.Web.Controllers
         public async Task<ActionResult> Create(FormCollection formCollection)
         {
             var newDocument = GetNewDocument(formCollection["Type"]);
+
+            if (!CurrentUserCanEdit()) return new HttpUnauthorizedResult();
 
             if (TryUpdateModel(newDocument))
             {
@@ -88,6 +113,8 @@ namespace Cognition.Web.Controllers
 
         public async Task<ActionResult> Edit(string id, string type)
         {
+            if (!CurrentUserCanEdit()) return new HttpUnauthorizedResult();
+
             var result = await documentService.GetDocumentAsType(id, documentTypeResolver.GetDocumentType(type));
 
             return View(result.Document);
@@ -97,6 +124,8 @@ namespace Cognition.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(FormCollection formCollection)
         {
+            if (!CurrentUserCanEdit()) return new HttpUnauthorizedResult();
+            
             var modelType = documentTypeResolver.GetDocumentType(formCollection["Type"]);
             var existingDocumentGetResult = await documentService.GetDocumentAsType(formCollection["Id"],
                 modelType);
@@ -146,16 +175,14 @@ namespace Cognition.Web.Controllers
 
                 return View(viewModel);
             }
-            else
-            {
-                throw new Exception(result.ErrorReason);
-            }
 
-            
+            throw new Exception(result.ErrorReason);
         }
 
         public async Task<ActionResult> Version(string id, string type, string v = null)
         {
+            if (!CurrentUserCanEdit()) return new HttpUnauthorizedResult();
+
             var documentType = documentTypeResolver.GetDocumentType(type);
             var currentResult = await documentService.GetDocumentAsType(id, documentType);
             var versionsResult =  await documentService.GetAvailableVersions(id);
@@ -188,6 +215,8 @@ namespace Cognition.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RestoreVersion(string id, string type, string versionId)
         {
+            if (!CurrentUserCanEdit()) return new HttpUnauthorizedResult();
+
             var documentType = documentTypeResolver.GetDocumentType(type);
             var restoreResult = await documentService.RestoreDocumentVersion(id, documentType, versionId);
 

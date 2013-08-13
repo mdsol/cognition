@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cognition.Shared.Changes;
 using Cognition.Shared.Documents;
+using Cognition.Shared.Permissions;
 using Cognition.Shared.Users;
 using Cognition.Web.Controllers;
 using Cognition.Web.Tests.Mocks;
 using Cognition.Web.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MvcContrib.TestHelper.Ui;
 using Ploeh.AutoFixture;
 using Rhino.Mocks;
 using MvcContrib.TestHelper;
@@ -24,6 +26,7 @@ namespace Cognition.Web.Tests.Controllers
         private IDocumentTypeResolver documentTypeResolver;
         private IUserAuthenticationService userAuthenticationService;
         private IDocumentUpdateNotifier documentUpdateNotifier;
+        private IPermissionService permissionService;
         private MockDocumentService documentService;
 
         private const string typeName = "test";
@@ -34,11 +37,12 @@ namespace Cognition.Web.Tests.Controllers
         {
             documentTypeResolver = MockRepository.GenerateMock<IDocumentTypeResolver>();
             userAuthenticationService = MockRepository.GenerateMock<IUserAuthenticationService>();
+            permissionService = MockRepository.GenerateMock<IPermissionService>();
             documentUpdateNotifier = new MockDocumentUpdateNotifier();
             userAuthenticationService.Stub(u => u.GetCurrentUserEmail()).Return(userEmail);
             userAuthenticationService.Stub(u => u.GetUserByEmail(userEmail)).Return(new User());
             documentService = new MockDocumentService();
-            sut = new DocumentController(documentTypeResolver, documentService, userAuthenticationService, documentUpdateNotifier);
+            sut = new DocumentController(documentTypeResolver, documentService, userAuthenticationService, documentUpdateNotifier, permissionService);
             documentTypeResolver.Stub(d => d.GetDocumentType(typeName)).Return(typeof (TestDocument));
             fixture = new Fixture();
         }
@@ -121,12 +125,21 @@ namespace Cognition.Web.Tests.Controllers
 
         }
 
+        private void StubAllPermissionsTrue()
+        {
+            permissionService.Stub(s => s.CurrentUserCanEdit()).Return(true);
+            permissionService.Stub(s => s.CurrentUserCanViewInternal()).Return(true);
+            permissionService.Stub(s => s.CurrentUserCanViewPublic()).Return(true);
+            permissionService.Stub(s => s.CanUserRegister(null)).IgnoreArguments().Return(true);
+        }
+
         [TestMethod]
         public void Index_GetsDocumentFromServiceAndSetsItAsModel()
         {
             var id = fixture.Create<string>();
             var document = new TestDocument { Id = id };
             documentService.Documents.Add(document);
+            StubAllPermissionsTrue();
 
             var result = (ViewResult)sut.Index(id, typeName).Result;
 

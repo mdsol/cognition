@@ -6,10 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using Cognition.Changes.Entity;
 using Cognition.Documents.CouchDb;
+using Cognition.Services.Configuration;
 using Cognition.Services.Documents;
+using Cognition.Services.Permissions;
 using Cognition.Shared.Changes;
 using Cognition.Shared.Configuration;
 using Cognition.Shared.Documents;
+using Cognition.Shared.Permissions;
 using Cognition.Shared.Users;
 using Cognition.Support.Configuration;
 using Cognition.Web.Services;
@@ -37,6 +40,10 @@ namespace Cognition.Web
             Container.RegisterType<IDocumentService, CouchDbDocumentService>();
             Container.RegisterType<IDocumentUpdateNotifier, SignalRDocumentUpdateNotifier>();
             Container.RegisterType<IDocumentChangeService, EFDocumentChangeService>();
+            
+            Container.RegisterType<IPermissionService, TokenStringPermissionService>();
+            Container.RegisterType<IPermissionTokenProvider, AppSettingPermissionTokenProvider>();
+
         }
     }
 }

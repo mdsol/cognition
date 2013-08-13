@@ -7,6 +7,16 @@ namespace Cognition.Shared.Documents
 {
     public class Document
     {
+        public enum VisibilityStatus
+        {
+            Internal = 0,
+            Public = 1,
+        }
+
+        [DataType("Enum")]
+        [Display(Name = "Visibility", Order = -1)]
+        public VisibilityStatus Visibility { get; set; }
+
         [ScaffoldColumn(false)]
         public string Type
         {
@@ -51,12 +61,12 @@ namespace Cognition.Shared.Documents
         [ScaffoldColumn(false)]
         public string LastUpdatedByUserId { get; set; }
 
-        [Display(Order = -2)]
+        [Display(Order = -3)]
         [Required]
         [MaxLength(100)]
         public virtual string Title { get; set; }
 
-        [Display(Order = -1)]
+        [Display(Order = -2)]
         public string Subtitle { get; set; }
     }
 }
