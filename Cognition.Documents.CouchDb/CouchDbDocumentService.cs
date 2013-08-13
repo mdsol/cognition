@@ -56,7 +56,8 @@ namespace Cognition.Documents.CouchDb
                 {
                     Content = previousVersion.Content,
                     VersionId = previousVersion.Rev,
-                    DateTime = DateTime.UtcNow
+                    DateTime = DateTime.UtcNow,
+                    UserId = asDocument.LastUpdatedByUserId
                 };
 
                 var attachment = new DocumentAttachment
@@ -259,6 +260,7 @@ namespace Cognition.Documents.CouchDb
                     if (createDocumentResult.Success)
                     {
                         result.Success = true;
+                        result.RestoredDocument = previousDocumentResult.Document;
                     }
                 }
 

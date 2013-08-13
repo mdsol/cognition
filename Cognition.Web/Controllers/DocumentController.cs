@@ -110,13 +110,18 @@ namespace Cognition.Web.Controllers
                 if (result.Success)
                 {
                     await documentUpdateNotifier.DocumentUpdated(new DocumentUpdateNotification(existingDocument,
-                            userAuthenticationService.GetUserByEmail(userAuthenticationService.GetCurrentUserEmail())));
+                            GetCurrentUser()));
 
                     return RedirectToAction("Index", new { id = formCollection["Id"], type = formCollection["Type"] });
                 }
             }
 
             return View(existingDocument);
+        }
+
+        private User GetCurrentUser()
+        {
+            return userAuthenticationService.GetUserByEmail(userAuthenticationService.GetCurrentUserEmail());
         }
 
         public async Task<ActionResult> List(string type, int pageSize = 20, int pageIndex = 0)
@@ -187,6 +192,10 @@ namespace Cognition.Web.Controllers
             var restoreResult = await documentService.RestoreDocumentVersion(id, documentType, versionId);
 
             if (!restoreResult.Success) throw new Exception("Could not restore document version.");
+
+            // TODO: Change this to "restore" event, not updated
+            await documentUpdateNotifier.DocumentUpdated(new DocumentUpdateNotification(restoreResult.RestoredDocument,
+                GetCurrentUser()));
 
             return RedirectToAction("Index", new {id, type});
 
