@@ -19,5 +19,7 @@ namespace Cognition.Shared.Documents
         Task<DocumentAvailableVersionsResult> GetAvailableVersions(string id);
 
         Task<DocumentGetVersionResult> GetDocumentVersionAsType(string id, Type type, string versionId);
+
+        Task<DocumentRestoreVersionResult> RestoreDocumentVersion(string id, Type type, string versionId);
     }
 }

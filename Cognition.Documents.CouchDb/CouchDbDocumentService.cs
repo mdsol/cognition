@@ -242,6 +242,31 @@ namespace Cognition.Documents.CouchDb
 
         }
 
+        public async Task<DocumentRestoreVersionResult> RestoreDocumentVersion(string id, Type type, string versionId)
+        {
+            using (var db = GetDb())
+            {
+                var result = new DocumentRestoreVersionResult();
+
+                var previousDocumentResult = await GetDocumentVersionAsType(id, type, versionId);
+                var currentDocumentResult = await GetDocumentAsType(id, type);
+
+                if (previousDocumentResult.Success && currentDocumentResult.Success)
+                {
+                    previousDocumentResult.Document.Attachments = currentDocumentResult.Document.Attachments;
+                    previousDocumentResult.Document.Rev = currentDocumentResult.Document.Rev;
+                    var createDocumentResult = await UpdateDocument(id, previousDocumentResult.Document);
+                    if (createDocumentResult.Success)
+                    {
+                        result.Success = true;
+                    }
+                }
+
+
+                return result;
+            }
+        }
+
         private string CreateViewJsonForTypeName(string typeName)
         {
             const string viewString = @"{{

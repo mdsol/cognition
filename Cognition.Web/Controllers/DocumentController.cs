@@ -170,8 +170,25 @@ namespace Cognition.Web.Controllers
                     viewModel.SelectedVersion = versionResult.Document;
                 }
             }
+            else
+            {
+                viewModel.SelectedVersion = viewModel.CurrentVersion;
+            }
 
             return View(viewModel);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RestoreVersion(string id, string type, string versionId)
+        {
+            var documentType = documentTypeResolver.GetDocumentType(type);
+            var restoreResult = await documentService.RestoreDocumentVersion(id, documentType, versionId);
+
+            if (!restoreResult.Success) throw new Exception("Could not restore document version.");
+
+            return RedirectToAction("Index", new {id, type});
 
         }
     }

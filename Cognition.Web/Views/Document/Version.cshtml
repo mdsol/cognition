@@ -6,41 +6,69 @@
 
 <div class="row">
     <div class="col-lg-12">
+        <a href="@Url.Action("Index",new{id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type})" class="btn btn-default">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Back to current version
+
+        </a>
+        
         <h2>@ViewBag.Title</h2>
     </div>
 </div>
-<hr/>
+<hr />
 
 <div class="row">
     <div class="col-lg-3">
         <ul class="nav nav-pills nav-stacked">
             <li class="@(Model.SelectedVersionId == null ? "active" : "not-active")">
-                @Html.ActionLink("Current Version", "Version", new {id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type})
+                @Html.ActionLink("Current Version", "Version", new { id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type })
             </li>
             @foreach (var version in Model.AvailableVersions)
             {
                 <li class="@(Model.SelectedVersionId == version.VersionId ? "active" : "not-active")">
-                    
+
                     <a href="@Url.Action("Version", new {id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type, v = version.VersionId})">
-                    @version.DateTime.ToShortDateString() @version.DateTime.ToShortTimeString()
-                </a>
+                        @version.DateTime.ToShortDateString() @version.DateTime.ToShortTimeString()
+                    </a>
                 </li>
             }
         </ul>
     </div>
 
-    <div class="col-lg-9 document-display-area">
-        
-        @if (String.IsNullOrWhiteSpace(Model.SelectedVersionId))
-        {
-            @Html.DisplayFor(m => m.CurrentVersion, "DocumentDefault")
-        }
-        else
-        {
+    <div class="row col-lg-9">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-6">
+                    @if (!String.IsNullOrWhiteSpace(Model.SelectedVersion.LastUpdatedByUserId))
+                    {<div id="user-info-container">
+                        <span class="user-info-label">Last Updated by</span>
+                        @Html.Action("UserInfo", "User", new { id = Model.SelectedVersion.LastUpdatedByUserId })
+                    </div>
+                    }
+                </div>
+                <div class="col-lg-6">
+                    @if (!String.IsNullOrWhiteSpace(Model.SelectedVersionId))
+                    {
+                        using (Html.BeginForm("RestoreVersion", "Document", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", Model.CurrentVersion.Id)
+                            @Html.Hidden("type", Model.CurrentVersion.Type)
+                            @Html.Hidden("versionId", Model.SelectedVersionId)
+
+                            <button type="submit" class="btn btn-primary pull-right">Restore this version</button>
+                        }
+                    }
+
+                </div>
+            </div>
+            <hr />
+
+        </div>
+        <div class="col-lg-12 document-display-area">
+
             @Html.DisplayFor(m => m.SelectedVersion, "DocumentDefault")
-        }
-            
+        </div>
     </div>
+
 </div>
-
-

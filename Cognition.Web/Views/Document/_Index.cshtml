@@ -20,7 +20,8 @@
              @Html.Action("UserInfo","User", new {id = Model.Document.LastUpdatedByUserId})
          </div>
         }
-
+        
+        <br />
         <p>@Html.ActionLink(Model.PreviousVersionCount + " previous versions", "Version", new { id = Model.Document.Id})</p>
 
         

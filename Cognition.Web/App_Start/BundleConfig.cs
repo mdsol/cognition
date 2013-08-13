@@ -31,6 +31,7 @@ namespace Cognition.Web
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
+                "~/Content/bootstrap-glyphicons.css",
                 "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

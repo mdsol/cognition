@@ -68,5 +68,10 @@ namespace Cognition.Web.Tests.Mocks
         {
             return new DocumentGetVersionResult();
         }
+
+        public async Task<DocumentRestoreVersionResult> RestoreDocumentVersion(string id, Type type, string versionId)
+        {
+            return new DocumentRestoreVersionResult();
+        }
     }
 }

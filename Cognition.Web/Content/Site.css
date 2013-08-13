@@ -72,3 +72,6 @@ input[type="checkbox"].input-validation-error {
 .change-notification .change-notification-status {
   padding-left: 48px;
 }
+.btn .glyphicon {
+  vertical-align: text-top;
+}

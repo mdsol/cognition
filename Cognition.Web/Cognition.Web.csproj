@@ -212,8 +212,15 @@
     <Compile Include="ViewModels\DocumentViewViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-glyphicons.css">
+      <DependentUpon>bootstrap-glyphicons.less</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-glyphicons.min.css">
+      <DependentUpon>bootstrap-glyphicons.less</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.svg" />
     <Content Include="Content\Site.css">
       <DependentUpon>Site.less</DependentUpon>
     </Content>
@@ -283,6 +290,11 @@
     <Compile Include="App_Start\Startup.Migrations.cs" />
     <Content Include="Content\Site.less" />
     <Compile Include="App_Start\Startup.SignalR.cs" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.eot" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.otf" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.woff" />
+    <Content Include="Content\bootstrap-glyphicons.less" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\Document\Index.js" />
     <Content Include="Scripts\Home\Index.js" />
