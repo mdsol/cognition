@@ -243,7 +243,26 @@ namespace Cognition.Web.Controllers
 
                 var email = id.FindFirst(ClaimTypes.Email).Value;
 
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = email, LoginProvider = loginProvider, Name = id.Name });
+                // create and sign in the user immedidately - do not allow to change email/name
+                try
+                {
+                    if (await AuthenticationManager.CreateAndSignInExternalUser(HttpContext, loginProvider, new CognitionUser(email, id.Name)))
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        return View("ExternalLoginFailure");
+                    }
+                }
+                catch (IdentityException e)
+                {
+                    TempData["error"] = e.Message;
+                    return View("ExternalLoginFailure");
+                    
+                }
+
+                //return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = email, LoginProvider = loginProvider, Name = id.Name });
             }
         }
 
