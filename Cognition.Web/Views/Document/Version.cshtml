@@ -28,7 +28,7 @@
                 <li class="@(Model.SelectedVersionId == version.VersionId ? "active" : "not-active")">
 
                     <a href="@Url.Action("Version", new {id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type, v = version.VersionId})">
-                        @version.DateTime.ToShortDateString() @version.DateTime.ToShortTimeString()
+                        <abbr class="timeago" title="@(version.DateTime.ToString("s") + "Z")">@version.DateTime.ToString()</abbr>
                     </a>
                 </li>
             }
@@ -80,3 +80,14 @@
     </div>
 
 </div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery.timeago.js")
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery("abbr.timeago").timeago();
+        });
+    </script>
+
+}

@@ -16,7 +16,7 @@ namespace Cognition.Web
 
             routes.MapRoute(
                 name: "Document",
-                url: "d/{type}/{action}/{id}",
+                url: "d/{type}/{id}/{action}",
                 defaults: new { controller = "Document", action = "Index", id = UrlParameter.Optional }
                 );
 
