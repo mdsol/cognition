@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="KnowledgeBaseArticle.cs" />
     <Compile Include="KnownIssue.cs" />
+    <Compile Include="Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

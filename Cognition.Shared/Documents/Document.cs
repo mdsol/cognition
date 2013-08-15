@@ -68,5 +68,8 @@ namespace Cognition.Shared.Documents
 
         [Display(Order = -2)]
         public string Subtitle { get; set; }
+
+        [ScaffoldColumn(false)]
+        public virtual Func<Document, string> MarkdownTemplate { get { return null; } } 
     }
 }

@@ -1,0 +1,10 @@
+﻿@model Cognition.Shared.Documents.Document
+@if (Model.MarkdownTemplate == null)
+{
+    @Html.DisplayFor(m => m, "DocumentDefault")
+}
+else
+{
+    @Html.Raw((new MarkdownSharp.Markdown()).Transform(Model.MarkdownTemplate(Model)))
+}
+
