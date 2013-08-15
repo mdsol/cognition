@@ -1,0 +1,18 @@
+﻿@model System.Collections.Generic.IEnumerable<Cognition.Shared.DynamicTypes.DynamicTypeDefinition>
+
+@{
+    ViewBag.Title = "Dynamic Types";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ActionLink("Create new type", "CreateType", new {}, new {@class = "btn btn-primary"})
+
+<br />
+<br />
+<ul>
+@foreach (var type in Model)
+{
+    <li>@Html.ActionLink(type.Name, "EditType", new {id = type.Id})</li>
+}
+</ul>

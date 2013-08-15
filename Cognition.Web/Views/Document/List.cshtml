@@ -7,12 +7,12 @@
 <h2>@ViewBag.Title</h2>
 
 @Html.ActionLink("Create new " + Model.TypeFullName, "Create", new {type = Model.TypeName}, new {@class = "btn btn-primary"})
-
-<ul>
+<br /><br />
 @foreach (var document in Model.Documents)
 {
-    <li>
-        @Html.ActionLink(document.Title, "Index", new {id = document.Id, type = document.Type})
-    </li>
+    <div class="row">
+        <div class="col-lg-12">
+            @Html.ActionLink(document.Title, "Index", new {id = document.Id, type = document.Type})
+        </div>
+    </div>
 }
-</ul>

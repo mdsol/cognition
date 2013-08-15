@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AEF87F82-DA8E-4C7B-A318-4FA0D87728A5}</ProjectGuid>
+    <ProjectGuid>{E3E62DF9-74F3-427C-B7C1-441902FD7352}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cognition.Shared</RootNamespace>
-    <AssemblyName>Cognition.Shared</AssemblyName>
+    <RootNamespace>Cognition.Documents.Entity</RootNamespace>
+    <AssemblyName>Cognition.Documents.Entity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,10 +30,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0-beta1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -43,37 +49,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Changes\DocumentCreatedNotification.cs" />
-    <Compile Include="Changes\IDocumentChangeService.cs" />
-    <Compile Include="Configuration\IAppSettingProvider.cs" />
-    <Compile Include="Configuration\IPermissionTokenProvider.cs" />
-    <Compile Include="DocumentService\DocumentAvailableVersionsResult.cs" />
-    <Compile Include="DocumentService\DocumentCountAvailableVersionsResult.cs" />
-    <Compile Include="DocumentService\DocumentCreateResult.cs" />
-    <Compile Include="DocumentService\DocumentGetResult.cs" />
-    <Compile Include="DocumentService\DocumentGetVersionResult.cs" />
-    <Compile Include="DocumentService\DocumentListResult.cs" />
-    <Compile Include="DocumentService\DocumentRestoreVersionResult.cs" />
-    <Compile Include="DocumentService\DocumentSearchResult.cs" />
-    <Compile Include="DocumentService\DocumentUpdateResult.cs" />
-    <Compile Include="Documents\Document.cs" />
-    <Compile Include="Documents\DocumentAttachment.cs" />
-    <Compile Include="Documents\DocumentReference.cs" />
-    <Compile Include="Documents\DocumentTypeReference.cs" />
-    <Compile Include="Documents\IDocumentService.cs" />
-    <Compile Include="Documents\IDocumentTypeResolver.cs" />
-    <Compile Include="Changes\DocumentChangeNotification.cs" />
-    <Compile Include="Changes\DocumentUpdateNotification.cs" />
-    <Compile Include="Changes\IDocumentUpdateNotifier.cs" />
-    <Compile Include="DynamicTypes\DynamicTypeDefinition.cs" />
-    <Compile Include="DynamicTypes\IDynamicTypeService.cs" />
-    <Compile Include="Permissions\IPermissionService.cs" />
+    <Compile Include="EFDynamicTypeService.cs" />
+    <Compile Include="Migrations\201308150916441_initial.cs" />
+    <Compile Include="Migrations\201308150916441_initial.Designer.cs">
+      <DependentUpon>201308150916441_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Users\IUserAuthenticationService.cs" />
-    <Compile Include="Users\User.cs" />
+    <Compile Include="TypeContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cognition.Shared\Cognition.Shared.csproj">
+      <Project>{aef87f82-da8e-4c7b-a318-4fa0d87728a5}</Project>
+      <Name>Cognition.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201308150916441_initial.resx">
+      <DependentUpon>201308150916441_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

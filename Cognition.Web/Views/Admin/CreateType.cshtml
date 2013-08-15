@@ -1,0 +1,23 @@
+﻿@model Cognition.Shared.DynamicTypes.DynamicTypeDefinition
+
+@{
+    ViewBag.Title = "Create new Dynamic Type";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("CreateType","Admin",FormMethod.Post, new { @class="form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    
+    @Html.LabelFor(m => m.Name)
+    @Html.EditorFor(m => m.Name)
+    @Html.ValidationMessageFor(m => m.Name)
+
+    @Html.LabelFor(m => m.Code)
+    @Html.TextAreaFor(m => m.Code, 16, 0, new { @class = "text-box multi-line form-control" })
+    @Html.ValidationMessageFor(m => m.Code)
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}

@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Documents.CouchDb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Changes.Entity", "Cognition.Changes.Entity\Cognition.Changes.Entity.csproj", "{0BE303C8-3E2B-4AF1-AC92-E302994ACDB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cognition.Documents.Entity", "Cognition.Documents.Entity\Cognition.Documents.Entity.csproj", "{E3E62DF9-74F3-427C-B7C1-441902FD7352}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{0BE303C8-3E2B-4AF1-AC92-E302994ACDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BE303C8-3E2B-4AF1-AC92-E302994ACDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BE303C8-3E2B-4AF1-AC92-E302994ACDB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E62DF9-74F3-427C-B7C1-441902FD7352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E62DF9-74F3-427C-B7C1-441902FD7352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E62DF9-74F3-427C-B7C1-441902FD7352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E62DF9-74F3-427C-B7C1-441902FD7352}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

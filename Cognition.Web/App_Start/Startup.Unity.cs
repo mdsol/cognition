@@ -6,12 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using Cognition.Changes.Entity;
 using Cognition.Documents.CouchDb;
+using Cognition.Documents.Entity;
 using Cognition.Services.Configuration;
 using Cognition.Services.Documents;
 using Cognition.Services.Permissions;
 using Cognition.Shared.Changes;
 using Cognition.Shared.Configuration;
 using Cognition.Shared.Documents;
+using Cognition.Shared.DynamicTypes;
 using Cognition.Shared.Permissions;
 using Cognition.Shared.Users;
 using Cognition.Support.Configuration;
@@ -43,6 +45,8 @@ namespace Cognition.Web
             
             Container.RegisterType<IPermissionService, TokenStringPermissionService>();
             Container.RegisterType<IPermissionTokenProvider, AppSettingPermissionTokenProvider>();
+
+            Container.RegisterType<IDynamicTypeService, EFDynamicTypeService>();
 
         }
     }
