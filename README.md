@@ -25,6 +25,7 @@ This is built as an experiment with modern .NET tools and frameworks as of Augus
   * Registration
 * Google single sign on support
 * Live updating of document pages and update feed
+* Simple app.config configuration
 
 ## Planned features
 * Comments on documents
@@ -39,6 +40,6 @@ This is built as an experiment with modern .NET tools and frameworks as of Augus
 
 ... and lots more!
 
-Developed by Ed Andersen (eandersen at mdsol.com). Only made possible by Innovation Time programme at Medidata Solutions. We are hiring!
+Developed by Ed Andersen (eandersen at mdsol.com). Only made possible by the Innovation Time programme at Medidata Solutions. We are hiring!
 
 Licensed under MIT.
