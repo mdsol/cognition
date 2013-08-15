@@ -289,7 +289,7 @@ namespace Cognition.Web.Tests.Controllers
             var pageIndex = fixture.Create<int>();
             var expectedDocuments = await documentService.SearchAllDocumentsByTitle(query, pageSize, pageIndex);
 
-            var viewModel = (DocumentSearchViewModel)((ViewResult)(await sut.Search(query, typeName, pageIndex, pageSize))).Model;
+            var viewModel = (DocumentSearchViewModel)((ViewResult)(await sut.Search(query, pageIndex, pageSize))).Model;
 
             CollectionAssert.AreEquivalent(expectedDocuments.Result.ToList(), viewModel.Results.ToList());
 

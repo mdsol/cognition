@@ -230,11 +230,9 @@ namespace Cognition.Web.Controllers
 
         }
 
-        public async Task<ActionResult> Search(string query, string type = null, int page = 0, int pageSize = 20)
+        public async Task<ActionResult> Search(string query, int page = 0, int pageSize = 20)
         {
             var viewModel = new DocumentSearchViewModel();
-
-            var documentType = documentTypeResolver.GetDocumentType(type);
 
             var result = await documentService.SearchAllDocumentsByTitle(query, pageSize, page);
 

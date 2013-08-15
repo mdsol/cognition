@@ -1,7 +1,25 @@
 ﻿@model Cognition.Web.ViewModels.DocumentSearchViewModel
 
 @{
-    ViewBag.Title = "Search Results";
+    ViewBag.Title = "Search Results for " + Model.Query;
 }
 
-<h2>title</h2>
+<h2>@ViewBag.Title</h2>
+
+@foreach (var document in Model.Results)
+{
+    <div class="row search-result">
+        <div class="col-lg-2 text-muted">
+            <h4>@document.GetFullName()</h4>
+        </div>
+        <div class="col-lg-10">
+            <a href="@Url.Action("Index", new { id = document.Id, type = document.Type})">
+                <h4>@document.Title</h4>
+                
+            </a>
+                @document.Subtitle
+                
+        </div>
+        
+    </div>
+}

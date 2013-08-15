@@ -20,6 +20,8 @@ namespace Cognition.Documents.CouchDb
         private readonly IAppSettingProvider appSettingProvider;
         private readonly IDocumentTypeResolver documentTypeResolver;
 
+        private const string ViewVersion = "2";
+
         public CouchDbDocumentService(IAppSettingProvider appSettingProvider, IDocumentTypeResolver documentTypeResolver)
         {
             this.appSettingProvider = appSettingProvider;
@@ -93,7 +95,7 @@ namespace Cognition.Documents.CouchDb
                 if (documentResponse.IsSuccess)
                 {
                     var document = await JsonConvert.DeserializeObjectAsync<Document>(documentResponse.Content);
-                    result.Amount = document.Attachments.Count(d => d.Key.StartsWith("version-"));
+                    if (document.Attachments != null) result.Amount = document.Attachments.Count(d => d.Key.StartsWith("version-"));
 
                     result.Success = true;
                 }
@@ -144,25 +146,32 @@ namespace Cognition.Documents.CouchDb
 
                     var versionList = new List<DocumentAvailableVersion>();
                     result.Versions = versionList;
-                    foreach (var attachment in document.Attachments)
+                    if (document.Attachments != null)
                     {
-                        var versionAttachmentResult =
-                            await
-                                db.Connection.SendAsync(new HttpRequestMessage(HttpMethod.Get,appSettingProvider.GetString("CouchDb") +
-                                    String.Format("/{0}/{1}", id, attachment.Key)));
-                        if (versionAttachmentResult.IsSuccessStatusCode)
+                        foreach (var attachment in document.Attachments)
                         {
-                            var versionAttachment = await JsonConvert.DeserializeObjectAsync<DocumentVersionAttachment>(await versionAttachmentResult.Content.ReadAsStringAsync());
-                            var version = new DocumentAvailableVersion
+                            var versionAttachmentResult =
+                                await
+                                    db.Connection.SendAsync(new HttpRequestMessage(HttpMethod.Get,
+                                        appSettingProvider.GetString("CouchDb") +
+                                        String.Format("/{0}/{1}", id, attachment.Key)));
+                            if (versionAttachmentResult.IsSuccessStatusCode)
                             {
-                                VersionId = versionAttachment.VersionId,
-                                DateTime = versionAttachment.DateTime,
-                                UserId = versionAttachment.UserId
-                            };
+                                var versionAttachment =
+                                    await
+                                        JsonConvert.DeserializeObjectAsync<DocumentVersionAttachment>(
+                                            await versionAttachmentResult.Content.ReadAsStringAsync());
+                                var version = new DocumentAvailableVersion
+                                {
+                                    VersionId = versionAttachment.VersionId,
+                                    DateTime = versionAttachment.DateTime,
+                                    UserId = versionAttachment.UserId
+                                };
 
-                            versionList.Add(version);
+                                versionList.Add(version);
+                            }
+
                         }
-                        
                     }
 
                     result.Success = true;
@@ -197,10 +206,28 @@ namespace Cognition.Documents.CouchDb
             // check to see if the design document already exists
             var existsResponse = await db.Documents.ExistsAsync(id);
 
-            if (existsResponse.IsSuccess && "_design/" + existsResponse.Id == id) return;
+            if (existsResponse.IsSuccess && "_design/" + existsResponse.Id  == id) return;
 
             // create the view to query on
             var viewDocument = CreateViewJsonForTypeName(typeName);
+
+            var viewPostResult = await db.Documents.PostAsync(viewDocument);
+            if (!viewPostResult.IsSuccess)
+            {
+                throw new Exception(String.Format("Error creating view: ({0} {1}) {2}", viewPostResult.StatusCode, viewPostResult.Reason, viewPostResult.Error));
+            }
+        }
+
+        private async Task UpdateSearchViewsIfRequired(Client db)
+        {
+            var id = "_design/" + "all_by_title_" + ViewVersion;
+            // check to see if the design document already exists
+            var existsResponse = await db.Documents.ExistsAsync(id);
+
+            if (existsResponse.IsSuccess && "_design/" + existsResponse.Id == id) return;
+
+            // create the view to query on
+            var viewDocument = CreateViewJsonForAllDocumentsByTitleKeywords();
 
             var viewPostResult = await db.Documents.PostAsync(viewDocument);
             if (!viewPostResult.IsSuccess)
@@ -245,6 +272,41 @@ namespace Cognition.Documents.CouchDb
 
         }
 
+        public async Task<DocumentSearchResult> SearchAllDocumentsByTitle(string query, int pageSize, int pageIndex)
+        {
+            using (var db = GetDb())
+            {
+                await UpdateSearchViewsIfRequired(db);
+
+                var viewQuery =
+                    new ViewQuery("all_by_title_" + ViewVersion, "keywords-all").Configure(
+                        c => c.Key(query.ToLower()).Skip(pageIndex * pageSize).Limit(pageSize).IncludeDocs(true));
+
+                var response = await db.Views.RunQueryAsync(viewQuery);
+
+                var result = new DocumentSearchResult();
+                result.PageIndex = pageIndex;
+                result.PageSize = pageSize;
+                result.IncludesPrivate = true;
+                if (response.IsSuccess)
+                {
+                    result.Success = true;
+                    result.TotalRecords = response.TotalRows;
+                    result.Result =
+                        response.Rows.Select(
+                            r =>
+                                (Document)
+                                    JsonConvert.DeserializeObject(r.Value,
+                                        documentTypeResolver.GetDocumentType(
+                                            JsonConvert.DeserializeObject<Document>(r.Value).Type)));
+                }
+
+                return result;
+
+            }
+        }
+
+
         public async Task<DocumentRestoreVersionResult> RestoreDocumentVersion(string id, Type type, string versionId)
         {
             using (var db = GetDb())
@@ -271,10 +333,6 @@ namespace Cognition.Documents.CouchDb
             }
         }
 
-        public Task<DocumentSearchResult> SearchAllDocumentsByTitle(string query, int pageSize, int pageIndex)
-        {
-            throw new NotImplementedException();
-        }
 
         private string CreateViewJsonForTypeName(string typeName)
         {
@@ -292,10 +350,24 @@ namespace Cognition.Documents.CouchDb
 
         }
 
+        private string CreateViewJsonForAllDocumentsByTitleKeywords()
+        {
+            const string viewString = @"{{
+                                        ""_id"": ""_design/all_by_title_{0}"",
+                                        ""language"": ""javascript"",
+                                        ""views"": {{
+                                            ""keywords-all"": {{
+                                                ""map"": ""function(doc) {{ var tokens; if (doc.title) {{ tokens = doc.title.toLowerCase().split(/[^A-Z0-9\\-_]+/i); tokens.map(function(token) {{ emit(token, doc);}});}}}}"" 
+                                            }}
+                                        }}
+                                    }}";
+            return String.Format(viewString, ViewVersion);
+        }
+
         private string CreateDesignDocumentNameForTypeName(string typeName)
         {
-            var name = "document-view-{0}";
-            return String.Format(name, typeName);
+            var name = "document-view-{0}_{1}";
+            return String.Format(name, typeName,ViewVersion);
         }
 
         private Client GetDb()
