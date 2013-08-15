@@ -15,6 +15,12 @@ namespace Cognition.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Search",
+                url: "search/{query}",
+                defaults: new { controller = "Document", action = "Search", query = UrlParameter.Optional }
+                );
+
+            routes.MapRoute(
                 name: "Document",
                 url: "d/{type}/{id}/{action}",
                 defaults: new { controller = "Document", action = "Index", id = UrlParameter.Optional }

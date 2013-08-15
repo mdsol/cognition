@@ -291,7 +291,7 @@ namespace Cognition.Documents.CouchDb
                 if (response.IsSuccess)
                 {
                     result.Success = true;
-                    result.TotalRecords = response.TotalRows;
+                    result.TotalRecords = response.RowCount;
                     result.Result =
                         response.Rows.Select(
                             r =>

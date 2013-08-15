@@ -6,6 +6,15 @@
 
 <h2>@ViewBag.Title</h2>
 
+@if (Model.TotalResult == 0)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            No search results found.
+        </div>
+    </div>
+}
+
 @foreach (var document in Model.Results)
 {
     <div class="row search-result">
@@ -23,3 +32,10 @@
         
     </div>
 }
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-6">@Model.TotalResult results found.</div>
+    <div class="col-lg-6"></div>
+</div>

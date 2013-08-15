@@ -5,7 +5,7 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-right">
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
@@ -18,7 +18,7 @@
 }
 else
 {
-    <ul class="nav pull-right">
+    <ul class="nav pull-right navbar-right">
         @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
