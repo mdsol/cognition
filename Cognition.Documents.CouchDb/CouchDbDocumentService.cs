@@ -18,10 +18,12 @@ namespace Cognition.Documents.CouchDb
     public class CouchDbDocumentService : IDocumentService
     {
         private readonly IAppSettingProvider appSettingProvider;
+        private readonly IDocumentTypeResolver documentTypeResolver;
 
-        public CouchDbDocumentService(IAppSettingProvider appSettingProvider)
+        public CouchDbDocumentService(IAppSettingProvider appSettingProvider, IDocumentTypeResolver documentTypeResolver)
         {
             this.appSettingProvider = appSettingProvider;
+            this.documentTypeResolver = documentTypeResolver;
         }
 
         public async Task<DocumentCreateResult> CreateNewDocument(dynamic document)
@@ -267,6 +269,11 @@ namespace Cognition.Documents.CouchDb
 
                 return result;
             }
+        }
+
+        public Task<DocumentSearchResult> SearchAllDocumentsByTitle(string query, int pageSize, int pageIndex)
+        {
+            throw new NotImplementedException();
         }
 
         private string CreateViewJsonForTypeName(string typeName)

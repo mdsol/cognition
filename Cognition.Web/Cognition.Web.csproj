@@ -208,6 +208,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Unity\UnityDependencyResolver.cs" />
     <Compile Include="ViewModels\DocumentListViewModel.cs" />
+    <Compile Include="ViewModels\DocumentSearchViewModel.cs" />
     <Compile Include="ViewModels\DocumentVersionViewModel.cs" />
     <Compile Include="ViewModels\DocumentViewViewModel.cs" />
   </ItemGroup>
@@ -358,6 +359,7 @@
     <Content Include="Views\Shared\EditorTemplates\MultilineText.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Int32.cshtml" />
     <Content Include="Views\Document\Version.cshtml" />
+    <Content Include="Views\Document\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

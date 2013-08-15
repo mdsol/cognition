@@ -13,6 +13,13 @@ namespace Cognition.Web.Tests.Mocks
         public List<Document> Documents = new List<Document>();
         public Dictionary<string, IList<Document>> Versions = new Dictionary<string, IList<Document>>();
 
+        private readonly IDocumentTypeResolver documentTypeResolver;
+
+        public MockDocumentService(IDocumentTypeResolver documentTypeResolver)
+        {
+            this.documentTypeResolver = documentTypeResolver;
+        }
+
         public async Task<DocumentCreateResult> CreateNewDocument(dynamic document)
         {
             document.Id = Guid.NewGuid().ToString();
@@ -72,6 +79,21 @@ namespace Cognition.Web.Tests.Mocks
         public async Task<DocumentRestoreVersionResult> RestoreDocumentVersion(string id, Type type, string versionId)
         {
             return new DocumentRestoreVersionResult();
+        }
+
+        public async Task<DocumentSearchResult> SearchAllDocumentsByTitle(string query, int pageSize, int pageIndex)
+        {
+            var results = query == null ? Enumerable.Empty<Document>() : Documents.Where(t => t.Title.ToLower().Contains(query.ToLower()));
+            return new DocumentSearchResult()
+            {
+                Result = results.Skip(pageSize * pageIndex).Take(pageSize),
+                IncludesPrivate = true,
+                Query = query,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalRecords = results.Count(),
+                Success = true
+            };
         }
     }
 }

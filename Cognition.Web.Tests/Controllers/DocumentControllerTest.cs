@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace Cognition.Web.Tests.Controllers
             documentUpdateNotifier = new MockDocumentUpdateNotifier();
             userAuthenticationService.Stub(u => u.GetCurrentUserEmail()).Return(userEmail);
             userAuthenticationService.Stub(u => u.GetUserByEmail(userEmail)).Return(new User());
-            documentService = new MockDocumentService();
+            documentService = new MockDocumentService(documentTypeResolver);
             sut = new DocumentController(documentTypeResolver, documentService, userAuthenticationService, documentUpdateNotifier, permissionService);
             documentTypeResolver.Stub(d => d.GetDocumentType(typeName)).Return(typeof (TestDocument));
             fixture = new Fixture();
@@ -50,6 +51,8 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public void Create_NewsUpNewInstanceOfDocumentTypeAndSetsViewModelType()
         {
+            StubAllPermissionsTrue();
+
             var result = (ViewResult) sut.Create(typeName);
 
             Assert.IsInstanceOfType(result.Model, typeof (TestDocument));
@@ -59,6 +62,8 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Create_Post_SetsValuesOnNewDocument()
         {
+            StubAllPermissionsTrue();
+
             const string testTitle = "test title";
             const string propOne = "property one";
             new TestControllerBuilder().InitializeController(sut);
@@ -75,6 +80,8 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Create_Post_SetsCurrentUserEmailAddressToCreatedByField()
         {
+            StubAllPermissionsTrue();
+
             userAuthenticationService.Stub(s => s.GetCurrentUserEmail()).Return(userEmail);
             var formValues = SetupCreateAction();
 
@@ -88,6 +95,7 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Create_Post_AddsDocumentToDocumentService()
         {
+            StubAllPermissionsTrue();
             var formValues = SetupCreateAction();
 
             await sut.Create(formValues);
@@ -110,6 +118,7 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Create_Post_RedirectsToViewOfDocumentOnPost()
         {
+            StubAllPermissionsTrue();
             const string testTitle = "test title";
             const string propOne = "property one";
             new TestControllerBuilder().InitializeController(sut);
@@ -152,6 +161,7 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Edit_Get_SetsModelToRetrievedDocument()
         {
+            StubAllPermissionsTrue();
             var document = fixture.Create<TestDocument>();
             documentService.Documents.Add(document);
 
@@ -164,6 +174,7 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Edit_Post_UpdatesDocumentWithFormCollectionValuesThenRedirectsToView()
         {
+            StubAllPermissionsTrue();
             var existingDocument = fixture.Create<TestDocument>();
             documentService.Documents.Add(existingDocument);
             var newTitle = fixture.Create<string>();
@@ -187,6 +198,7 @@ namespace Cognition.Web.Tests.Controllers
         [TestMethod]
         public async Task Edit_Post_SetsUpdatedByUserIdOnDocument()
         {
+            StubAllPermissionsTrue();
             var existingDocument = fixture.Create<TestDocument>();
             documentService.Documents.Add(existingDocument);
             var newTitle = fixture.Create<string>();
@@ -201,9 +213,6 @@ namespace Cognition.Web.Tests.Controllers
             var newDocument = (TestDocument) documentService.Documents.Single();
 
             Assert.AreEqual(userEmail, newDocument.LastUpdatedByUserId);
-
-
-
 
         }
 
@@ -263,6 +272,31 @@ namespace Cognition.Web.Tests.Controllers
             Assert.AreEqual(typeFullName, model.TypeFullName);
         }
 
+        [TestMethod]
+        public async Task Search_ReturnsViewWithCorrectViewModel()
+        {
+            var result = (ViewResult)(await sut.Search(null));
+            Assert.IsInstanceOfType(result.Model, typeof (DocumentSearchViewModel));
+        }
 
+        [TestMethod]
+        public async Task Search_SetsViewModelResultsFromDocumentService()
+        {
+            var documents = fixture.CreateMany<TestDocument>();
+            documentService.Documents.AddRange(documents);
+            var query = "Title";
+            var pageSize = fixture.Create<int>();
+            var pageIndex = fixture.Create<int>();
+            var expectedDocuments = await documentService.SearchAllDocumentsByTitle(query, pageSize, pageIndex);
+
+            var viewModel = (DocumentSearchViewModel)((ViewResult)(await sut.Search(query, typeName, pageIndex, pageSize))).Model;
+
+            CollectionAssert.AreEquivalent(expectedDocuments.Result.ToList(), viewModel.Results.ToList());
+
+            Assert.AreEqual(query,viewModel.Query);
+            Assert.AreEqual(pageSize, viewModel.PageSize);
+            Assert.AreEqual(pageIndex, viewModel.PageIndex);
+            Assert.AreEqual(expectedDocuments.TotalRecords, viewModel.TotalResult);
+        }
     }
 }

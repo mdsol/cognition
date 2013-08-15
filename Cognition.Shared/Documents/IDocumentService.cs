@@ -21,5 +21,8 @@ namespace Cognition.Shared.Documents
         Task<DocumentGetVersionResult> GetDocumentVersionAsType(string id, Type type, string versionId);
 
         Task<DocumentRestoreVersionResult> RestoreDocumentVersion(string id, Type type, string versionId);
+
+        Task<DocumentSearchResult> SearchAllDocumentsByTitle(string query, int pageSize,
+            int pageIndex);
     }
 }

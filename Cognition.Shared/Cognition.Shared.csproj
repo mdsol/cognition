@@ -54,6 +54,7 @@
     <Compile Include="DocumentService\DocumentGetVersionResult.cs" />
     <Compile Include="DocumentService\DocumentListResult.cs" />
     <Compile Include="DocumentService\DocumentRestoreVersionResult.cs" />
+    <Compile Include="DocumentService\DocumentSearchResult.cs" />
     <Compile Include="DocumentService\DocumentUpdateResult.cs" />
     <Compile Include="Documents\Document.cs" />
     <Compile Include="Documents\DocumentAttachment.cs" />

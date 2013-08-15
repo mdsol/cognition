@@ -229,5 +229,32 @@ namespace Cognition.Web.Controllers
             return RedirectToAction("Index", new {id, type});
 
         }
+
+        public async Task<ActionResult> Search(string query, string type = null, int page = 0, int pageSize = 20)
+        {
+            var viewModel = new DocumentSearchViewModel();
+
+            var documentType = documentTypeResolver.GetDocumentType(type);
+
+            var result = await documentService.SearchAllDocumentsByTitle(query, pageSize, page);
+
+            if (result.Success)
+            {
+                viewModel.Results = result.Result;
+                viewModel.Query = query;
+                viewModel.PageIndex = page;
+                viewModel.PageSize = pageSize;
+                viewModel.TotalResult = result.TotalRecords;
+
+                return View(viewModel);
+            }
+            else
+            {
+                throw new Exception("Could not load search results.");
+            }
+
+            
+
+        }
     }
 }
