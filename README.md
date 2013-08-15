@@ -19,7 +19,7 @@ This is built as an experiment with modern .NET tools and frameworks as of Augus
 * Markdown support for string properties with the ```[DataType(DataType.MultilineText)]``` attribute
 * View previous versions and supports reverting
 * A simple token-based search across document titles
-* Permissions system to restrict the following over anonymous users, registered users, email address or email domain:
+* Permissions system to restrict the following to anonymous users, registered users, email address or email domain:
   * Public documents
   * Internal documents (default)
   * Registration
@@ -38,5 +38,7 @@ This is built as an experiment with modern .NET tools and frameworks as of Augus
 * Image drag and drop
 
 ... and lots more!
+
+Developed by Ed Andersen (eandersen at mdsol.com). Only made possible by Innovation Time programme at Medidata Solutions. We are hiring!
 
 Licensed under MIT.
