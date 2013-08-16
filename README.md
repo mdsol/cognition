@@ -15,7 +15,9 @@ This is built as an experiment with modern .NET tools and frameworks as of Augus
 ## Features
 
 * A CouchDB-based document storage engine.
-* Supports a type-based system of dynamic document types. Currently these are statically compiled into the app but could be extended to support run-time design.
+* Supports a type-based system of dynamic document types. There are two implementations available:
+  * Static, compiled document types
+  * Dynamically set by the user and compiled at runtime. There is an editor in the admin area.
 * Markdown support for string properties with the ```[DataType(DataType.MultilineText)]``` attribute
 * View previous versions and supports reverting
 * A simple token-based search across document titles
@@ -23,9 +25,11 @@ This is built as an experiment with modern .NET tools and frameworks as of Augus
   * Public documents
   * Internal documents (default)
   * Registration
+  * Admin access
 * Google single sign on support
 * Live updating of document pages and update feed
 * Simple app.config configuration
+
 
 ## Planned features
 * Document store engines based on MongoDB and SQL Server
@@ -38,6 +42,7 @@ This is built as an experiment with modern .NET tools and frameworks as of Augus
 * Document reference fields
 * File attachments
 * Image drag and drop
+* Web UI for app config
 
 ... and lots more!
 
