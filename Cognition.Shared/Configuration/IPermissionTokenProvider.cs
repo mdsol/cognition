@@ -6,5 +6,6 @@
         string GetTokensForViewInternal();
         string GetTokenForEdit();
         string GetTokenForRegistration();
+        string GetTokenForAdmin();
     }
 }

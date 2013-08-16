@@ -6,19 +6,30 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using Cognition.Shared.DynamicTypes;
+using Cognition.Shared.Permissions;
 using Cognition.Web.Helpers;
 
 namespace Cognition.Web.Controllers
 {
-    public class AdminController : AsyncController
+    public class AdminController : Controller
     {
         private readonly IDynamicTypeService dynamicTypeService;
         private readonly IDynamicTypeCompiler dynamicTypeCompiler;
+        private readonly IPermissionService permissionService;
 
-        public AdminController(IDynamicTypeService dynamicTypeService, IDynamicTypeCompiler dynamicTypeCompiler)
+        public AdminController(IDynamicTypeService dynamicTypeService, IDynamicTypeCompiler dynamicTypeCompiler, IPermissionService permissionService)
         {
             this.dynamicTypeService = dynamicTypeService;
             this.dynamicTypeCompiler = dynamicTypeCompiler;
+            this.permissionService = permissionService;
+        }
+
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            if (!permissionService.CanUserAdmin())
+            {
+                filterContext.Result = new HttpUnauthorizedResult();
+            }
         }
 
         public async Task<ActionResult> Types()

@@ -6,5 +6,6 @@
         bool CurrentUserCanViewInternal();
         bool CurrentUserCanEdit();
         bool CanUserRegister(string userId);
+        bool CanUserAdmin();
     }
 }

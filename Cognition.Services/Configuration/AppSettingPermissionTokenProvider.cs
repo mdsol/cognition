@@ -35,5 +35,10 @@ namespace Cognition.Services.Configuration
         {
             return appSettingProvider.GetString("RegistrationPermissions");
         }
+
+        public string GetTokenForAdmin()
+        {
+            return appSettingProvider.GetString("AdminPermissions");
+        }
     }
 }

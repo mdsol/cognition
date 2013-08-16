@@ -76,5 +76,11 @@ namespace Cognition.Services.Permissions
             var tokens = permissionTokenProvider.GetTokenForRegistration();
             return ParseTokensAndValidate(tokens);
         }
+
+        public bool CanUserAdmin()
+        {
+            var tokens = permissionTokenProvider.GetTokenForAdmin();
+            return ParseTokensAndValidate(tokens);
+        }
     }
 }
