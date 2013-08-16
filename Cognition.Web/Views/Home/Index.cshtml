@@ -4,14 +4,13 @@
     ViewBag.Title = "Cognition";  
 }
 
-<div class="hero-unit">
-    <h1>Cognition</h1>
-    <p class="lead">Work in progress.</p>
-</div>
-
 <div class="row">
-    <div class="col-lg-6">
-        <h2>
+    <div class="col-lg-8">
+        <div class="hero-unit">
+            <h1>Cognition</h1>
+            <p class="lead">Work in progress.</p>
+        </div>
+ <h2>
             Available document types
         </h2>
 
@@ -24,12 +23,12 @@
             }
             </ul>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <h2>Updates</h2>
         @Html.Action("AllRecentPartial", "Changes")
-    </div>
-</div>
+    </div>    
 
+</div>
 
 
 @section scripts
@@ -48,5 +47,5 @@
     <script type="text/javascript">
         window.documentPartialUri = '@Url.Action("GetSingleChange","Changes",new {id = "[ID]"})';
     </script>
-    @Scripts.Render("~/bundles/home/index")
+@Scripts.Render("~/bundles/home/index")
 }
