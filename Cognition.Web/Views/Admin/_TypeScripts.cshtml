@@ -1,0 +1,47 @@
+﻿@using Cognition.Shared.DynamicTypes
+ <script type="text/javascript" charset="utf-8" src="@Url.Content("~/Scripts/ace/ace.js")"></script>
+    <script>
+        var editor = ace.edit("editor");
+        
+        editor.getSession().setMode("ace/mode/csharp");
+        
+        var textarea = $('textarea[name="Code"]').hide();
+        editor.getSession().setValue(textarea.val());
+        editor.getSession().on('change', function () {
+            textarea.val(editor.getSession().getValue());
+        });
+        
+        
+    </script>
+
+        @if (ViewData["CompileErrors"] != null)
+        {
+            var errors = (IEnumerable<DynamicTypeCodeCompileError>) ViewData["CompileErrors"];
+            var editString = "";
+            foreach (var error in errors)
+            {
+                editString += @"{
+                row:
+                " + error.LineNumber + @",
+                column:
+                " + error.Column + @",
+                text:
+                """ + error.ErrorText + @""",
+                type:
+                """ + (error.IsWarning ? "warning" : "error") + @"""},";
+
+            }
+
+        <script>                
+    
+            editor.getSession().setAnnotations([
+                @Html.Raw(editString)
+            ]);
+         
+             </script>
+
+        }
+     
+ 
+        
+

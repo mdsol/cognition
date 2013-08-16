@@ -1,0 +1,25 @@
+﻿@model Cognition.Shared.DynamicTypes.DynamicTypeDefinition
+
+@Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Tenant)
+    
+    @Html.LabelFor(m => m.Name) 
+    <span class="help-block">This is a short, slug name, such as "page", "bug", "issue", "profile" etc</span>
+    @Html.EditorFor(m => m.Name)
+    @Html.ValidationMessageFor(m => m.Name)
+    <br /><br />
+    @Html.LabelFor(m => m.Code)
+    @Html.TextAreaFor(m => m.Code, 16, 0, new { @class = "text-box multi-line form-control" })
+
+    <style type="text/css" media="screen">
+        #editor {
+            height: 400px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-lg-12"  id="editor"></div>
+    </div>
+
+
+    @Html.ValidationMessageFor(m => m.Code)

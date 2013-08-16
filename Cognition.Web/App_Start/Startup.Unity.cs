@@ -9,6 +9,7 @@ using Cognition.Documents.CouchDb;
 using Cognition.Documents.Entity;
 using Cognition.Services.Configuration;
 using Cognition.Services.Documents;
+using Cognition.Services.DynamicTypes;
 using Cognition.Services.Permissions;
 using Cognition.Shared.Changes;
 using Cognition.Shared.Configuration;
@@ -37,7 +38,9 @@ namespace Cognition.Web
 
             Container.RegisterType<IAppSettingProvider, AppSettingProvider>();
 
-            Container.RegisterType<IDocumentTypeResolver, StaticDocumentTypeResolver>();
+            //Container.RegisterType<IDocumentTypeResolver, StaticDocumentTypeResolver>();
+            Container.RegisterType<IDocumentTypeResolver, DynamicDocumentTypeResolver>();
+
             Container.RegisterType<IUserAuthenticationService, AspNetUserAuthenticationService>();
             Container.RegisterType<IDocumentService, CouchDbDocumentService>();
             Container.RegisterType<IDocumentUpdateNotifier, SignalRDocumentUpdateNotifier>();
@@ -47,6 +50,7 @@ namespace Cognition.Web
             Container.RegisterType<IPermissionTokenProvider, AppSettingPermissionTokenProvider>();
 
             Container.RegisterType<IDynamicTypeService, EFDynamicTypeService>();
+            Container.RegisterType<IDynamicTypeCompiler, CSharpDynamicTypeCompiler>();
 
         }
     }

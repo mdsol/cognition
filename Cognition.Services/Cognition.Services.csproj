@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Configuration\AppSettingPermissionTokenProvider.cs" />
     <Compile Include="Documents\StaticDocumentTypeResolver.cs" />
+    <Compile Include="DynamicTypes\CSharpDynamicTypeCompiler.cs" />
+    <Compile Include="DynamicTypes\DynamicDocumentTypeResolver.cs" />
     <Compile Include="Permissions\TokenStringPermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

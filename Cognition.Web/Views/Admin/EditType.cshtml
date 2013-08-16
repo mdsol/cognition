@@ -1,7 +1,26 @@
-﻿@model Cognition.Shared.DynamicTypes.DynamicTypeDefinition
+﻿@using Cognition.Shared.DynamicTypes
+@model Cognition.Shared.DynamicTypes.DynamicTypeDefinition
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Edit Dynamic Type";
 }
 
-<h2>title</h2>
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("EditType","Admin",FormMethod.Post, new { @class="form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.Partial("_TypeForm", Model)
+
+    <br /><br />
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+
+
+@section scripts
+{
+   @Html.Partial("_TypeScripts")
+
+}

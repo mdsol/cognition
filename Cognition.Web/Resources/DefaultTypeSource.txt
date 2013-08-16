@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Cognition.Shared.Documents;
+
+namespace Cognition.Documents.Library
+{
+    public class CustomDocumentType : Document
+    {
+        public CustomDocumentType()
+        {
+            Type = "custom"; // needs to be the same as the Name field above this code editor
+        }
+
+        public override string GetFullName()
+        {
+            return "Custom Document";
+        }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Markdown supported text area")]
+        public string BodyText { get; set; }
+
+        [Display(Name = "Text field")]
+        public string CustomTextField { get; set; }
+
+        // Uncomment and provide a custom Markdown template for display rendering
+        //public override Func<Document, string> MarkdownTemplate
+        //{
+        //    get
+        //    {
+        //        return (d => ((Page) d).BodyText);
+        //    }
+        //}
+    }
+}

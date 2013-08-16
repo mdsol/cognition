@@ -7,7 +7,9 @@ namespace Cognition.Shared.DynamicTypes
 {
     public interface IDynamicTypeService
     {
-        Task<IEnumerable<DynamicTypeDefinition>> GetAll();
+        Task<IEnumerable<DynamicTypeDefinition>> GetAllAsync();
+        IEnumerable<DynamicTypeDefinition> GetAll(); 
         Task<DynamicTypeDefinition> GetTypeById(Guid id);
+        Task AddOrUpdateType(DynamicTypeDefinition type);
     }
 }
