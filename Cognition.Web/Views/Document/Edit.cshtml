@@ -1,9 +1,9 @@
 ﻿@model Cognition.Shared.Documents.Document
 @{
-    ViewBag.Title = "Edit " + Model.Title;
+    ViewBag.PageTitle = "Edit " + Model.Title;
 }
 
-<h1>@ViewBag.Title</h1>
+<h1>@ViewBag.PageTitle</h1>
 
 @using (Html.BeginForm("Edit","Document",FormMethod.Post, new { @class="form-horizontal"}))
 {
