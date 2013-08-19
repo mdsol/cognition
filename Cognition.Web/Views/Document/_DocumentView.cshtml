@@ -1,10 +1,10 @@
 ﻿@model Cognition.Shared.Documents.Document
-@if (Model.MarkdownTemplate == null)
+@if (Model.GetMarkdownTemplate() == null)
 {
     @Html.DisplayFor(m => m, "DocumentDefault")
 }
 else
 {
-    @Html.Raw((new MarkdownSharp.Markdown()).Transform(Model.MarkdownTemplate(Model)))
+    @Html.Raw((new MarkdownSharp.Markdown()).Transform(Model.GetMarkdownTemplate()(Model)))
 }
 

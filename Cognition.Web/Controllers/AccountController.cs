@@ -216,6 +216,7 @@ namespace Cognition.Web.Controllers
             ClaimsIdentity id = await AuthenticationManager.GetExternalIdentity(HttpContext);
             if (!AuthenticationManager.VerifyExternalIdentity(id, loginProvider))
             {
+                TempData["error"] = "External identity verification failed.";
                 return View("ExternalLoginFailure");
             }
 
@@ -233,6 +234,7 @@ namespace Cognition.Web.Controllers
                 }
                 else 
                 {
+                    TempData["error"] = "Could not link external identity.";
                     return View("ExternalLoginFailure");
                 }
             }
@@ -252,6 +254,7 @@ namespace Cognition.Web.Controllers
                     }
                     else
                     {
+                        TempData["error"] = "Could not create and sign in external user.";
                         return View("ExternalLoginFailure");
                     }
                 }

@@ -292,6 +292,7 @@
     <Content Include="Global.asax" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
+    <None Include="Properties\PublishProfiles\Local publish.pubxml" />
     <None Include="Resources\DefaultTypeSource.txt" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
@@ -567,8 +568,14 @@
     <Content Include="Scripts\jquery.signalR-2.0.0-beta2.js" />
     <Content Include="Scripts\jquery.signalR-2.0.0-beta2.min.js" />
     <Content Include="Scripts\jquery.timeago.js" />
+    <Content Include="Scripts\jquery.timeago.min.js">
+      <DependentUpon>jquery.timeago.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.timeago.min.js.map">
+      <DependentUpon>jquery.timeago.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

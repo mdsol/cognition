@@ -24,12 +24,9 @@ namespace Cognition.Documents.Library
         [Display(Name = "Body text")]
         public string Body { get; set; }
 
-        public override Func<Document, string> MarkdownTemplate
+        public override Func<Document, string> GetMarkdownTemplate()
         {
-            get
-            {
-                return (d => ((Page) d).Body);
-            }
+            return (d => ((Page) d).Body);
         }
     }
 }

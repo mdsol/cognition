@@ -28,12 +28,9 @@ namespace Cognition.Documents.Library
         public string CustomTextField { get; set; }
 
         // Uncomment and provide a custom Markdown template for display rendering
-        //public override Func<Document, string> MarkdownTemplate
+        //public override Func<Document, string> GetMarkdownTemplate()
         //{
-        //    get
-        //    {
-        //        return (d => ((Page) d).BodyText);
-        //    }
+        //    return (d => ((Page) d).BodyText);
         //}
     }
 }

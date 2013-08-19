@@ -14,7 +14,7 @@ namespace Cognition.Web
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
                         "~/Scripts/jquery.signalR-2.0.0-beta2.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery.timeago.js").Include(
+            bundles.Add(new ScriptBundle("~/bundles/jquerytimeago").Include(
                         "~/Scripts/jquery.timeago.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

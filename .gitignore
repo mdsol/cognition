@@ -5,3 +5,8 @@ packages/*
 Cognition.Web/App_Data/aspnet-Cognition.Web-20130703033902_log.ldf
 Cognition.Web/App_Data/
 cognition.sln.DotSettings.user
+Cognition.Web/Cognition.Web.deploy-readme.txt
+Cognition.Web/Cognition.Web.deploy.cmd
+Cognition.Web/Cognition.Web.SetParameters.xml
+Cognition.Web/Cognition.Web.SourceManifest.xml
+Cognition.Web/Cognition.Web.zip
