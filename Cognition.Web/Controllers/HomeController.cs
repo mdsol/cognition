@@ -21,18 +21,5 @@ namespace Cognition.Web.Controllers
             return View(documentTypeResolver.AllAvailableTypes);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
