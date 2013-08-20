@@ -83,3 +83,13 @@ input[type="checkbox"].input-validation-error {
     padding-right: 0px;
   }
 }
+.hero-unit {
+  clear: both;
+}
+.hero-unit img {
+  margin-right: 20px;
+}
+.navbar-logo {
+  margin-top: 5px;
+  margin-right: 10px;
+}

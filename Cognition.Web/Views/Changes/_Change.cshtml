@@ -1,7 +1,7 @@
 ﻿@using Cognition.Shared.Changes
 @model Cognition.Shared.Changes.DocumentChangeNotification
 <div class="row">
-    <div class="col-12 change-notification">
+    <div class="col-md-12 change-notification">
         @Html.Gravatar(Model.ByUserId, 80, new { width = 40, height = 40, @class = "avatar" })
         @Html.ActionLink(Model.Title, "Index", "Document", new { id = Model.DocumentId, type = Model.Type }, new { })
         <br/>        
