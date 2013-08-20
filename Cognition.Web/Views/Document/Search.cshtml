@@ -9,7 +9,7 @@
 @if (Model.TotalResult == 0)
 {
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
             No search results found.
         </div>
     </div>
@@ -18,10 +18,10 @@
 @foreach (var document in Model.Results)
 {
     <div class="row search-result">
-        <div class="col-lg-2 text-muted">
+        <div class="col-md-2 text-muted">
             <h4>@document.GetFullName()</h4>
         </div>
-        <div class="col-lg-10">
+        <div class="col-md-10">
             <a href="@Url.Action("Index", new { id = document.Id, type = document.Type})">
                 <h4>@document.Title</h4>
                 
@@ -36,6 +36,6 @@
 <hr />
 
 <div class="row">
-    <div class="col-lg-6">@Model.TotalResult results found.</div>
-    <div class="col-lg-6"></div>
+    <div class="col-md-6">@Model.TotalResult results found.</div>
+    <div class="col-md-6"></div>
 </div>

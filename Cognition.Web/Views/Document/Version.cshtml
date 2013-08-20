@@ -5,7 +5,7 @@
 }
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-md-12">
         <a href="@Url.Action("Index",new{id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type})" class="btn btn-default">
             <span class="glyphicon glyphicon-arrow-left"></span>
             Back to current version
@@ -18,7 +18,7 @@
 <hr />
 
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-md-3">
         <ul class="nav nav-pills nav-stacked">
             <li class="@(Model.SelectedVersionId == null ? "active" : "not-active")">
                 @Html.ActionLink("Current Version", "Version", new { id = Model.CurrentVersion.Id, type = Model.CurrentVersion.Type })
@@ -36,9 +36,9 @@
     </div>
 
     <div class="row col-lg-9">
-        <div class="col-lg-12">
+        <div class="col-md-12">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     @if (!String.IsNullOrWhiteSpace(Model.SelectedVersion.LastUpdatedByUserId))
                     {
                         <div id="user-info-container">
@@ -54,7 +54,7 @@
                         </div>
                     }
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     @if (!String.IsNullOrWhiteSpace(Model.SelectedVersionId))
                     {
                         using (Html.BeginForm("RestoreVersion", "Document", FormMethod.Post))
@@ -73,7 +73,7 @@
             <hr />
 
         </div>
-        <div class="col-lg-12 document-display-area">
+        <div class="col-md-12 document-display-area">
             @Html.Partial("_DocumentView", Model.SelectedVersion)
         </div>
     </div>

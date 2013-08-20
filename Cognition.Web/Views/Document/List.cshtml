@@ -11,7 +11,7 @@
 @foreach (var document in Model.Documents)
 {
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
             @Html.ActionLink(document.Title, "Index", new {id = document.Id, type = document.Type})
         </div>
     </div>

@@ -1,8 +1,8 @@
 ﻿@model Cognition.Web.ViewModels.DocumentViewViewModel
-<div class="col-lg-9 document-display-area">
+<div class="col-md-9 document-display-area">
     @Html.Partial("_DocumentView", Model.Document)
 </div>
-<div class="col-lg-3 display-sidebar">
+<div class="col-md-3 display-sidebar">
     @if (Model.CanEdit)
     {
         <div class="action-row">

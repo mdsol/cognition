@@ -6,14 +6,14 @@
 
 
 <div class="row">
-    <div class="col-lg-9">
+    <div class="col-md-9">
         <h1>@Model.Document.Title</h1>
         @if (@String.IsNullOrWhiteSpace(Model.Document.Subtitle))
         {
             <h3>@Model.Document.Subtitle</h3>
         }       
     </div>
-    <div class="col-lg-3 text-right">
+    <div class="col-md-3 text-right">
         <h1 class="text-muted">@Model.Document.GetFullName()</h1>
     </div>
 </div>
