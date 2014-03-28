@@ -1,14 +1,14 @@
 ﻿# Cognition
 
-An ASP.NET MVC Web app to manage structured data such as profiles or knowledge base articles. A cross between a wiki, CMS and database app.
+An ASP.NET MVC Web app to manage structured data such as profiles or knowledge base articles. A cross between a wiki, CMS and database app. For a video overview go to: http://www.edandersen.com/2013/10/10/open-sourcing-cognition/
 
 This is built as an experiment with modern .NET tools and frameworks as of August 2013:
 
 * .NET 4.5
 * async/await as much as possible
-* MVC5
-* SignalR 2.0 beta
-* Entity Framework 6 beta
+* ~~MVC5~~ Updated to 5.1
+* ~~SignalR 2.0 beta~~ Updated to 2.0
+* ~~Entity Framework 6 beta~~ Updated to 6.1
 * CouchDB via the awesome MyCouch library: https://github.com/danielwertheim/mycouch
 * Bootstrap 3 RC2
 
